@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  // || States
   const [rosters, setRosters] = useState([]);
+  const [selectedSemester, setSelectedSemester] = useState("");
+  const navigate = useNavigate();
 
+  // || Fetch Rosters from API
   useEffect(() => {
     fetch("https://classes.cornell.edu/api/2.0/config/rosters.json")
       .then((response) => response.json())
@@ -14,13 +19,23 @@ const HomePage = () => {
       });
   }, []);
 
-  console.log(rosters);
+  // || Handle Changes
+  const handleSemesterChange = (e) => {
+    setSelectedSemester(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    if (selectedSemester) {
+      navigate(`/${selectedSemester}`);
+    }
+  };
 
   return (
     <div>
       <h1>Home Page</h1>
       <label>Select a Roster:</label>
-      <select name="rosters">
+      <select value={selectedSemester} onChange={handleSemesterChange}>
+        <option value="">Choose a Semester</option>
         {rosters
           .slice()
           .reverse()
@@ -30,6 +45,8 @@ const HomePage = () => {
             </option>
           ))}
       </select>
+
+      <button onClick={handleSubmit}>Submit</button>
     </div>
   );
 };
