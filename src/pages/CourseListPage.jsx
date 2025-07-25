@@ -25,6 +25,15 @@ const CourseListPage = () => {
       <h1>Course List</h1>
       <h2>{semester}</h2>
       <h2>{subject}</h2>
+      {courses.map((course) => (
+        // Temporary Course Card Styling
+        <div class="flex flex-col m-4 border-1 border-solid border-indigo-500">
+          <p>
+            {course.subject} {course.catalogNbr}
+          </p>
+          <p>{course.titleLong}</p>
+        </div>
+      ))}
     </div>
   );
 };
