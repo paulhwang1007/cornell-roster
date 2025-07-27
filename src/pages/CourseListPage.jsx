@@ -59,10 +59,9 @@ const CourseListPage = () => {
   // Fetch Classes when Filters Change
   useEffect(() => {
     handleSearch();
-  }, [debouncedSearchTerm, classLevels]);
+  }, [debouncedSearchTerm]);
 
   // || Handlers for Search Filters
-
   // Class Levels
   const handleClassLevelChange = (e) => {
     const classLevel = e.target.value;
@@ -122,6 +121,7 @@ const CourseListPage = () => {
         <input type="checkbox" value="9000" onChange={handleClassLevelChange} />
         9000-level
       </label>
+      <button onClick={handleSearch}>Apply Filters</button>
 
       {loading ? (
         <p className="text-gray-500">Loading Courses...</p>
