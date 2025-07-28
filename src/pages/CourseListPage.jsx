@@ -369,6 +369,51 @@ const CourseListPage = () => {
         <label>
           <input
             type="checkbox"
+            value="AFS-AG"
+            onChange={handleDistrReqChange}
+          />
+          AFS-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="ALC-AAP"
+            onChange={handleDistrReqChange}
+          />
+          ALC-AAP
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="ALC-AS"
+            onChange={handleDistrReqChange}
+          />
+          ALC-AS
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="ALC-HA"
+            onChange={handleDistrReqChange}
+          />
+          ALC-HA
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="AWI-IL"
+            onChange={handleDistrReqChange}
+          />
+          AWI-IL
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
             value="BIO-AG"
             onChange={handleDistrReqChange}
           />
@@ -382,6 +427,542 @@ const CourseListPage = () => {
             onChange={handleDistrReqChange}
           />
           BIO-AS
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="BSC-AG"
+            onChange={handleDistrReqChange}
+          />
+          BSC-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="CA-AG"
+            onChange={handleDistrReqChange}
+          />
+          CA-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="CA-HE"
+            onChange={handleDistrReqChange}
+          />
+          CA-HE
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="CE-EN"
+            onChange={handleDistrReqChange}
+          />
+          CE-EN
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="CHPH-AG"
+            onChange={handleDistrReqChange}
+          />
+          CHPH-AG
+        </label>
+
+        <label>
+          <input type="checkbox" value="D-AG" onChange={handleDistrReqChange} />
+          D-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="DLG-AG"
+            onChange={handleDistrReqChange}
+          />
+          DLG-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="DLS-AG"
+            onChange={handleDistrReqChange}
+          />
+          DLS-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="EEE-AG"
+            onChange={handleDistrReqChange}
+          />
+          EEE-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="ETH-AG"
+            onChange={handleDistrReqChange}
+          />
+          ETH-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="ETM-AAP"
+            onChange={handleDistrReqChange}
+          />
+          ETM-AAP
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="ETM-AS"
+            onChange={handleDistrReqChange}
+          />
+          ETM-AS
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="ETM-HA"
+            onChange={handleDistrReqChange}
+          />
+          ETM-HA
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="FL-AG"
+            onChange={handleDistrReqChange}
+          />
+          FL-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="FLOPI-AS"
+            onChange={handleDistrReqChange}
+          />
+          FLOPI-AS
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="GLC-AAP"
+            onChange={handleDistrReqChange}
+          />
+          GLC-AAP
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="GLC-AS"
+            onChange={handleDistrReqChange}
+          />
+          GLC-AS
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="GLC-HA"
+            onChange={handleDistrReqChange}
+          />
+          GLC-HA
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="HA-AG"
+            onChange={handleDistrReqChange}
+          />
+          HA-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="HA-HE"
+            onChange={handleDistrReqChange}
+          />
+          HA-HE
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="HST-AAP"
+            onChange={handleDistrReqChange}
+          />
+          HST-AAP
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="HST-AS"
+            onChange={handleDistrReqChange}
+          />
+          HST-AS
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="HST-HA"
+            onChange={handleDistrReqChange}
+          />
+          HST-HA
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="ICE-IL"
+            onChange={handleDistrReqChange}
+          />
+          ICE-IL
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="ICL-IL"
+            onChange={handleDistrReqChange}
+          />
+          ICL-IL
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="KCM-AG"
+            onChange={handleDistrReqChange}
+          />
+          KCM-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="KCM-HE"
+            onChange={handleDistrReqChange}
+          />
+          KCM-HE
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="LA-AG"
+            onChange={handleDistrReqChange}
+          />
+          LA-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="LAD-HE"
+            onChange={handleDistrReqChange}
+          />
+          LAD-HE
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="LH-IL"
+            onChange={handleDistrReqChange}
+          />
+          LH-IL
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="MQL-AG"
+            onChange={handleDistrReqChange}
+          />
+          MQL-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="MQR-AAP"
+            onChange={handleDistrReqChange}
+          />
+          MQR-AAP
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="MQR-HE"
+            onChange={handleDistrReqChange}
+          />
+          MQR-HE
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="OCE-IL"
+            onChange={handleDistrReqChange}
+          />
+          OCE-IL
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="OCL-IL"
+            onChange={handleDistrReqChange}
+          />
+          OCL-IL
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="OPHLS-AG"
+            onChange={handleDistrReqChange}
+          />
+          OPHLS-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="ORL-AG"
+            onChange={handleDistrReqChange}
+          />
+          ORL-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="PBS-HE"
+            onChange={handleDistrReqChange}
+          />
+          PBS-HE
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="PHS-AS"
+            onChange={handleDistrReqChange}
+          />
+          PHS-AS
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="PSC-AG"
+            onChange={handleDistrReqChange}
+          />
+          PSC-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="QP-IL"
+            onChange={handleDistrReqChange}
+          />
+          QP-IL
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SBA-AG"
+            onChange={handleDistrReqChange}
+          />
+          SBA-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SBA-HE"
+            onChange={handleDistrReqChange}
+          />
+          SBA-HE
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SCD-AAP"
+            onChange={handleDistrReqChange}
+          />
+          SCD-AAP
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SCD-AS"
+            onChange={handleDistrReqChange}
+          />
+          SCD-AS
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SCD-HA"
+            onChange={handleDistrReqChange}
+          />
+          SCD-HA
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SCH-AG"
+            onChange={handleDistrReqChange}
+          />
+          SCH-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SCT-IL"
+            onChange={handleDistrReqChange}
+          />
+          SCT-IL
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SDS-AAP"
+            onChange={handleDistrReqChange}
+          />
+          SDS-AAP
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SDS-AS"
+            onChange={handleDistrReqChange}
+          />
+          SDS-AS
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SDS-HA"
+            onChange={handleDistrReqChange}
+          />
+          SDS-HA
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SMR-AAP"
+            onChange={handleDistrReqChange}
+          />
+          SMR-AAP
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SMR-AS"
+            onChange={handleDistrReqChange}
+          />
+          SMR-AS
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SMR-HA"
+            onChange={handleDistrReqChange}
+          />
+          SMR-HA
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SOW-IL"
+            onChange={handleDistrReqChange}
+          />
+          SOW-IL
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SSC-AAP"
+            onChange={handleDistrReqChange}
+          />
+          SSC-AAP
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SSC-AS"
+            onChange={handleDistrReqChange}
+          />
+          SSC-AS
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SSC-HA"
+            onChange={handleDistrReqChange}
+          />
+          SSC-HA
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="STA-IL"
+            onChange={handleDistrReqChange}
+          />
+          STA-IL
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="WRT-AG"
+            onChange={handleDistrReqChange}
+          />
+          WRT-AG
         </label>
       </div>
 
@@ -416,6 +997,34 @@ const CourseListPage = () => {
           />
           Africana Area
         </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="AFLANG"
+            onChange={handleExplStudiesChange}
+          />
+          Africana Lang
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="EAAREA"
+            onChange={handleExplStudiesChange}
+          />
+          East Asia Area
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="EALANG"
+            onChange={handleExplStudiesChange}
+          />
+          East Asia Lang
+        </label>
+
         <label>
           <input
             type="checkbox"
@@ -423,6 +1032,105 @@ const CourseListPage = () => {
             onChange={handleExplStudiesChange}
           />
           Engaged Learning
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="EUAREA"
+            onChange={handleExplStudiesChange}
+          />
+          European Area
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="EULANG"
+            onChange={handleExplStudiesChange}
+          />
+          European Lang
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="CU-ITL"
+            onChange={handleExplStudiesChange}
+          />
+          International Ed
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="LAAREA"
+            onChange={handleExplStudiesChange}
+          />
+          Latin American Area
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="LALANG"
+            onChange={handleExplStudiesChange}
+          />
+          Latin American Lang
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SEAREA"
+            onChange={handleExplStudiesChange}
+          />
+          Southeast Asia Area
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SELANG"
+            onChange={handleExplStudiesChange}
+          />
+          Southeast Asian Lang
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SAAREA"
+            onChange={handleExplStudiesChange}
+          />
+          South Asia Area
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SALANG"
+            onChange={handleExplStudiesChange}
+          />
+          South Asian Lang
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="CU-SBY"
+            onChange={handleExplStudiesChange}
+          />
+          Sustainability
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="CU-UGR"
+            onChange={handleExplStudiesChange}
+          />
+          Undegraduate Research
         </label>
       </div>
 
