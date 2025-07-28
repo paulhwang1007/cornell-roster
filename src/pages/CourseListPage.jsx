@@ -15,6 +15,8 @@ const CourseListPage = () => {
   const [acadCareers, setAcadCareers] = useState([]);
   const [acadGroups, setAcadGroups] = useState([]);
   const [classLevels, setClassLevels] = useState([]);
+  const [distrReqs, setDistrReqs] = useState([]);
+  const [specifiedDistrReq, setSpecifiedDistrReq] = useState("");
 
   // || Debounce Search Term
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
@@ -43,6 +45,9 @@ const CourseListPage = () => {
       classLevels.forEach((classLevel) =>
         params.append("classLevels[]", classLevel)
       );
+
+      distrReqs.forEach((distrReq) => params.append("distrReqs[]", distrReq));
+      params.append("distrReqs-type", specifiedDistrReq);
 
       // Search Bar Term
       if (debouncedSearchTerm) {
@@ -102,6 +107,21 @@ const CourseListPage = () => {
     );
   };
 
+  // Distribution Requirements
+  const handleDistrReqChange = (e) => {
+    const distrReq = e.target.value;
+    setDistrReqs((prev) =>
+      e.target.checked
+        ? [...prev, distrReq]
+        : prev.filter((l) => l !== distrReq)
+    );
+  };
+
+  const handleSpecifiedDistrReqChange = (e) => {
+    const specifiedDistrReq = e.target.value;
+    setSpecifiedDistrReq(specifiedDistrReq);
+  };
+
   return (
     <div>
       <h1>Course List</h1>
@@ -144,7 +164,8 @@ const CourseListPage = () => {
         </label>
       </div>
 
-      {/* Acad Group Filter */}
+      {/* Acad Group Filter 
+      TODO: Take out of CourseList and put into SubjectList */}
       <div>
         <label>
           <input type="checkbox" value="AG" onChange={handleAcadGroupChange} />
@@ -295,6 +316,45 @@ const CourseListPage = () => {
             onChange={handleClassLevelChange}
           />
           9000-level
+        </label>
+      </div>
+
+      {/* Distribution Requirement Filter */}
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            value="any"
+            onChange={handleSpecifiedDistrReqChange}
+          />
+          Any
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="all"
+            onChange={handleSpecifiedDistrReqChange}
+          />
+          All
+        </label>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            value="BIO-AG"
+            onChange={handleDistrReqChange}
+          />
+          BIO-AG
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="BIO-AS"
+            onChange={handleDistrReqChange}
+          />
+          BIO-AS
         </label>
       </div>
 
