@@ -12,8 +12,9 @@ const CourseListPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   // Filters
-  const [classLevels, setClassLevels] = useState([]);
   const [acadCareers, setAcadCareers] = useState([]);
+  const [acadGroups, setAcadGroups] = useState([]);
+  const [classLevels, setClassLevels] = useState([]);
 
   // || Debounce Search Term
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
@@ -31,12 +32,16 @@ const CourseListPage = () => {
       params.set("subject", subject);
 
       // Filters
-      classLevels.forEach((classLevel) =>
-        params.append("classLevels[]", classLevel)
-      );
-
       acadCareers.forEach((acadCareer) =>
         params.append("acadCareer[]", acadCareer)
+      );
+
+      acadGroups.forEach((acadGroup) =>
+        params.append("acadGroup[]", acadGroup)
+      );
+
+      classLevels.forEach((classLevel) =>
+        params.append("classLevels[]", classLevel)
       );
 
       // Search Bar Term
@@ -44,7 +49,7 @@ const CourseListPage = () => {
         params.set("q", debouncedSearchTerm);
       }
 
-      // Build Full URL w/ Params + Fetch
+      // Build Full URL w/ Params and then Fetch
       const url = `https://classes.cornell.edu/api/2.0/search/classes.json?${params.toString()}`;
       const response = await fetch(url);
       const data = await response.json();
@@ -61,22 +66,12 @@ const CourseListPage = () => {
     handleSearch();
   }, []);
 
-  // Fetch Classes when Filters Change
+  // Fetch Classes when Search Term Changes after debounce
   useEffect(() => {
     handleSearch();
   }, [debouncedSearchTerm]);
 
   // || Handlers for Search Filters
-  // Class Levels
-  const handleClassLevelChange = (e) => {
-    const classLevel = e.target.value;
-    setClassLevels((prev) =>
-      e.target.checked
-        ? [...prev, classLevel]
-        : prev.filter((l) => l !== classLevel)
-    );
-  };
-
   // Acad Careers
   const handleAcadCareerChange = (e) => {
     const acadCareer = e.target.value;
@@ -84,6 +79,26 @@ const CourseListPage = () => {
       e.target.checked
         ? [...prev, acadCareer]
         : prev.filter((l) => l !== acadCareer)
+    );
+  };
+
+  // Acad Groups
+  const handleAcadGroupChange = (e) => {
+    const acadGroup = e.target.value;
+    setAcadGroups((prev) =>
+      e.target.checked
+        ? [...prev, acadGroup]
+        : prev.filter((l) => l !== acadGroup)
+    );
+  };
+
+  // Class Levels
+  const handleClassLevelChange = (e) => {
+    const classLevel = e.target.value;
+    setClassLevels((prev) =>
+      e.target.checked
+        ? [...prev, classLevel]
+        : prev.filter((l) => l !== classLevel)
     );
   };
 
@@ -100,6 +115,112 @@ const CourseListPage = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+
+      {/* Acad Career Filter */}
+      <div>
+        <label>
+          <input type="checkbox" value="UG" onChange={handleAcadCareerChange} />{" "}
+          Undergraduate
+        </label>
+
+        <label>
+          <input type="checkbox" value="GR" onChange={handleAcadCareerChange} />{" "}
+          Graduate
+        </label>
+
+        <label>
+          <input type="checkbox" value="GM" onChange={handleAcadCareerChange} />{" "}
+          Graduate Management
+        </label>
+
+        <label>
+          <input type="checkbox" value="LA" onChange={handleAcadCareerChange} />{" "}
+          Law
+        </label>
+
+        <label>
+          <input type="checkbox" value="VM" onChange={handleAcadCareerChange} />{" "}
+          Veterinary Medicine
+        </label>
+      </div>
+
+      {/* Acad Group Filter */}
+      <div>
+        <label>
+          <input type="checkbox" value="AG" onChange={handleAcadGroupChange} />
+          Agricultural and Life Sciences
+        </label>
+
+        <label>
+          <input type="checkbox" value="AR" onChange={handleAcadGroupChange} />
+          Architecture, Art, and Planning
+        </label>
+
+        <label>
+          <input type="checkbox" value="AS" onChange={handleAcadGroupChange} />
+          Arts and Sciences
+        </label>
+
+        <label>
+          <input type="checkbox" value="AT" onChange={handleAcadGroupChange} />
+          Athletics
+        </label>
+
+        <label>
+          <input type="checkbox" value="BU" onChange={handleAcadGroupChange} />
+          Business
+        </label>
+
+        <label>
+          <input type="checkbox" value="CT" onChange={handleAcadGroupChange} />
+          Cornell Tech
+        </label>
+
+        <label>
+          <input type="checkbox" value="CU" onChange={handleAcadGroupChange} />
+          Cornell University
+        </label>
+
+        <label>
+          <input type="checkbox" value="EN" onChange={handleAcadGroupChange} />
+          Engineering
+        </label>
+
+        <label>
+          <input type="checkbox" value="GR" onChange={handleAcadGroupChange} />
+          Graduate
+        </label>
+
+        <label>
+          <input type="checkbox" value="HE" onChange={handleAcadGroupChange} />
+          Human Ecology
+        </label>
+
+        <label>
+          <input type="checkbox" value="IL" onChange={handleAcadGroupChange} />
+          Industrial and Labor Relations
+        </label>
+
+        <label>
+          <input type="checkbox" value="LA" onChange={handleAcadGroupChange} />
+          Law
+        </label>
+
+        <label>
+          <input type="checkbox" value="PP" onChange={handleAcadGroupChange} />
+          Public Policy
+        </label>
+
+        <label>
+          <input type="checkbox" value="OT" onChange={handleAcadGroupChange} />
+          Reserve Officer Training
+        </label>
+
+        <label>
+          <input type="checkbox" value="VM" onChange={handleAcadGroupChange} />
+          Veterinary Medicine
+        </label>
+      </div>
 
       {/* Class Level Filter */}
       <div>
@@ -177,33 +298,6 @@ const CourseListPage = () => {
         </label>
       </div>
 
-      {/* Acad Career Filter */}
-      <div>
-        <label>
-          <input type="checkbox" value="UG" onChange={handleAcadCareerChange} />{" "}
-          Undergraduate
-        </label>
-
-        <label>
-          <input type="checkbox" value="GR" onChange={handleAcadCareerChange} />{" "}
-          Graduate
-        </label>
-
-        <label>
-          <input type="checkbox" value="GM" onChange={handleAcadCareerChange} />{" "}
-          Graduate Management
-        </label>
-
-        <label>
-          <input type="checkbox" value="LA" onChange={handleAcadCareerChange} />{" "}
-          Law
-        </label>
-
-        <label>
-          <input type="checkbox" value="VM" onChange={handleAcadCareerChange} />{" "}
-          Veterinary Medicine
-        </label>
-      </div>
       <button onClick={handleSearch}>Apply Filters</button>
 
       {/* Load Courses */}
