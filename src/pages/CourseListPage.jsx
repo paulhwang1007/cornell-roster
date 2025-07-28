@@ -16,7 +16,7 @@ const CourseListPage = () => {
   const [acadGroups, setAcadGroups] = useState([]);
   const [classLevels, setClassLevels] = useState([]);
   const [distrReqs, setDistrReqs] = useState([]);
-  const [specifiedDistrReq, setSpecifiedDistrReq] = useState("");
+  const [distrReqType, setDistrReqType] = useState("any");
 
   // || Debounce Search Term
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
@@ -47,7 +47,7 @@ const CourseListPage = () => {
       );
 
       distrReqs.forEach((distrReq) => params.append("distrReqs[]", distrReq));
-      params.append("distrReqs-type", specifiedDistrReq);
+      params.append("distrReqs-type", distrReqType);
 
       // Search Bar Term
       if (debouncedSearchTerm) {
@@ -117,9 +117,9 @@ const CourseListPage = () => {
     );
   };
 
-  const handleSpecifiedDistrReqChange = (e) => {
-    const specifiedDistrReq = e.target.value;
-    setSpecifiedDistrReq(specifiedDistrReq);
+  const handleDistrReqTypeChange = (e) => {
+    const distrReqType = e.target.value;
+    setDistrReqType((prev) => (prev === distrReqType ? "" : distrReqType));
   };
 
   return (
@@ -325,7 +325,8 @@ const CourseListPage = () => {
           <input
             type="checkbox"
             value="any"
-            onChange={handleSpecifiedDistrReqChange}
+            checked={distrReqType === "any"}
+            onChange={handleDistrReqTypeChange}
           />
           Any
         </label>
@@ -333,7 +334,8 @@ const CourseListPage = () => {
           <input
             type="checkbox"
             value="all"
-            onChange={handleSpecifiedDistrReqChange}
+            checked={distrReqType === "all"}
+            onChange={handleDistrReqTypeChange}
           />
           All
         </label>
