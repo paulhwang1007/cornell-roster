@@ -19,6 +19,7 @@ const CourseListPage = () => {
   const [distrReqType, setDistrReqType] = useState("any");
   const [explStudies, setExplStudies] = useState([]);
   const [explStudiesType, setExplStudiesType] = useState("any");
+  const [instructModes, setInstructModes] = useState([]);
 
   // || Debounce Search Term
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
@@ -54,6 +55,10 @@ const CourseListPage = () => {
       params.append("explStudies-type", explStudiesType);
       explStudies.forEach((explStudy) =>
         params.append("explStudies[]", explStudy)
+      );
+
+      instructModes.forEach((instructMode) =>
+        params.append("instructMode[]", instructMode)
       );
 
       // Search Bar Term
@@ -143,6 +148,16 @@ const CourseListPage = () => {
     const explStudiesType = e.target.value;
     setExplStudiesType((prev) =>
       prev === explStudiesType ? "" : explStudiesType
+    );
+  };
+
+  // Instruction Mode
+  const handleInstructModeChange = (e) => {
+    const instructMode = e.target.value;
+    setInstructModes((prev) =>
+      e.target.checked
+        ? [...prev, instructMode]
+        : prev.filter((l) => l !== instructMode)
     );
   };
 
@@ -1131,6 +1146,63 @@ const CourseListPage = () => {
             onChange={handleExplStudiesChange}
           />
           Undegraduate Research
+        </label>
+      </div>
+
+      {/* Instruction Mode Filter */}
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            value="RE"
+            onChange={handleInstructModeChange}
+          />
+          Directed Research
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="AD"
+            onChange={handleInstructModeChange}
+          />
+          Distance Learning: Asynchronous
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="SD"
+            onChange={handleInstructModeChange}
+          />
+          Distance Learning: Synchronous
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="HY"
+            onChange={handleInstructModeChange}
+          />
+          Hybrid: Online + In-Person
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="IS"
+            onChange={handleInstructModeChange}
+          />
+          Independent Studies
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="OL"
+            onChange={handleInstructModeChange}
+          />
+          Online
         </label>
       </div>
 
