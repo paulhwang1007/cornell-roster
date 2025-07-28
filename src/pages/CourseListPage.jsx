@@ -17,6 +17,8 @@ const CourseListPage = () => {
   const [classLevels, setClassLevels] = useState([]);
   const [distrReqs, setDistrReqs] = useState([]);
   const [distrReqType, setDistrReqType] = useState("any");
+  const [explStudies, setExplStudies] = useState([]);
+  const [explStudiesType, setExplStudiesType] = useState("any");
 
   // || Debounce Search Term
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
@@ -46,8 +48,13 @@ const CourseListPage = () => {
         params.append("classLevels[]", classLevel)
       );
 
-      distrReqs.forEach((distrReq) => params.append("distrReqs[]", distrReq));
       params.append("distrReqs-type", distrReqType);
+      distrReqs.forEach((distrReq) => params.append("distrReqs[]", distrReq));
+
+      params.append("explStudies-type", explStudiesType);
+      explStudies.forEach((explStudy) =>
+        params.append("explStudies[]", explStudy)
+      );
 
       // Search Bar Term
       if (debouncedSearchTerm) {
@@ -120,6 +127,23 @@ const CourseListPage = () => {
   const handleDistrReqTypeChange = (e) => {
     const distrReqType = e.target.value;
     setDistrReqType((prev) => (prev === distrReqType ? "" : distrReqType));
+  };
+
+  // Exploratory Studies
+  const handleExplStudiesChange = (e) => {
+    const explStudy = e.target.value;
+    setExplStudies((prev) =>
+      e.target.checked
+        ? [...prev, explStudy]
+        : prev.filter((l) => l !== explStudy)
+    );
+  };
+
+  const handleExplStudiesTypeChange = (e) => {
+    const explStudiesType = e.target.value;
+    setExplStudiesType((prev) =>
+      prev === explStudiesType ? "" : explStudiesType
+    );
   };
 
   return (
@@ -319,7 +343,7 @@ const CourseListPage = () => {
         </label>
       </div>
 
-      {/* Distribution Requirement Filter */}
+      {/* Distribution Requirement Type */}
       <div>
         <label>
           <input
@@ -340,6 +364,7 @@ const CourseListPage = () => {
           All
         </label>
       </div>
+      {/* Distribution Requirement Filter */}
       <div>
         <label>
           <input
@@ -357,6 +382,47 @@ const CourseListPage = () => {
             onChange={handleDistrReqChange}
           />
           BIO-AS
+        </label>
+      </div>
+
+      {/* Exploratory Studies Type */}
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            value="any"
+            checked={explStudiesType === "any"}
+            onChange={handleExplStudiesTypeChange}
+          />
+          Any
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="all"
+            checked={explStudiesType === "all"}
+            onChange={handleExplStudiesTypeChange}
+          />
+          All
+        </label>
+      </div>
+      {/* Exploratory Studies Filter */}
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            value="AFAREA"
+            onChange={handleExplStudiesChange}
+          />
+          Africana Area
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="CU-CEL"
+            onChange={handleExplStudiesChange}
+          />
+          Engaged Learning
         </label>
       </div>
 
