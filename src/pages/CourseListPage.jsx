@@ -20,6 +20,8 @@ const CourseListPage = () => {
   const [explStudies, setExplStudies] = useState([]);
   const [explStudiesType, setExplStudiesType] = useState("any");
   const [instructModes, setInstructModes] = useState([]);
+  // Other Filters
+  const [credits, setCredits] = useState([]);
 
   // || Debounce Search Term
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
@@ -70,7 +72,33 @@ const CourseListPage = () => {
       const url = `https://classes.cornell.edu/api/2.0/search/classes.json?${params.toString()}`;
       const response = await fetch(url);
       const data = await response.json();
-      setCourses(data.data.classes);
+      let fetchedCourses = data.data.classes || [];
+
+      // Local filter for credits
+      if (credits.length > 0) {
+        fetchedCourses = fetchedCourses.filter((course) =>
+          course.enrollGroups.some((group) => {
+            const min = group.unitsMinimum;
+            const max = group.unitsMaximum;
+
+            return credits.some((credit) => {
+              const numeric = parseFloat(credit);
+
+              // 1. In-range match
+              const isInRange = numeric >= min && numeric <= max;
+
+              // 2. Starts-with match (e.g. 1.5 matches "1")
+              const startsWithMatch = credits.some((c) =>
+                String(min).startsWith(c)
+              );
+
+              return isInRange || startsWithMatch;
+            });
+          })
+        );
+      }
+
+      setCourses(fetchedCourses);
     } catch (error) {
       console.error("Error Fetching Courses: ", error);
     } finally {
@@ -158,6 +186,18 @@ const CourseListPage = () => {
       e.target.checked
         ? [...prev, instructMode]
         : prev.filter((l) => l !== instructMode)
+    );
+  };
+
+  // || Other Filters
+  // Credits
+  const handleCreditChange = (e) => {
+    const credits = e.target.value;
+
+    setCredits((prev) =>
+      e.target.checked
+        ? [...prev, credits]
+        : prev.filter((credit) => credit !== credits)
     );
   };
 
@@ -1203,6 +1243,104 @@ const CourseListPage = () => {
             onChange={handleInstructModeChange}
           />
           Online
+        </label>
+      </div>
+
+      {/* Credits */}
+      <div>
+        <label>
+          <input type="checkbox" value="0" onChange={handleCreditChange} />
+          0-1 credits
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="1"
+            onChange={handleCreditChange}
+            checked={credits.includes("1")}
+          />
+          1 credit
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="2"
+            onChange={handleCreditChange}
+            checked={credits.includes("2")}
+          />
+          2 credits
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="3"
+            onChange={handleCreditChange}
+            checked={credits.includes("3")}
+          />
+          3 credits
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="4"
+            onChange={handleCreditChange}
+            checked={credits.includes("4")}
+          />
+          4 credits
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="5"
+            onChange={handleCreditChange}
+            checked={credits.includes("5")}
+          />
+          5 credits
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="6"
+            onChange={handleCreditChange}
+            checked={credits.includes("6")}
+          />
+          6 credits
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="7"
+            onChange={handleCreditChange}
+            checked={credits.includes("7")}
+          />
+          7 credits
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="8"
+            onChange={handleCreditChange}
+            checked={credits.includes("8")}
+          />
+          8 credits
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="9"
+            onChange={handleCreditChange}
+            checked={credits.includes("9")}
+          />
+          9 credits
         </label>
       </div>
 
