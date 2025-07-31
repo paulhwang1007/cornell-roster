@@ -94,12 +94,7 @@ const CourseListPage = () => {
             )
           );
 
-          const courseDays = new Set(
-            allPatterns
-              .join("")
-              .split("")
-              .filter((day) => "MTWRFSSu".includes(day))
-          );
+          const courseDays = extractDays(allPatterns);
 
           if (daysType === "includes") {
             return days.some((day) => courseDays.has(day));
@@ -182,6 +177,25 @@ const CourseListPage = () => {
         ? [...prev, credits]
         : prev.filter((credit) => credit !== credits)
     );
+  };
+
+  const extractDays = (patterns) => {
+    const dayTokens = [];
+
+    for (const pattern of patterns) {
+      let i = 0;
+      while (i < pattern.length) {
+        if (pattern[i] === "S" && pattern[i + 1] === "u") {
+          dayTokens.push("Su");
+          i += 2;
+        } else {
+          dayTokens.push(pattern[i]);
+          i += 1;
+        }
+      }
+    }
+
+    return new Set(dayTokens);
   };
 
   const handleDayChange = (e) => {
