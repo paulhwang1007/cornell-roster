@@ -1,5 +1,17 @@
 @import "tailwindcss";
+@import "tailwind-scrollbar-hide/v4";
 
+@theme {
+  --font-sans: "Open Sans", sans-serif;
+}
+
+@layer components {
+  .card-header {
+    @apply text-xl font-normal font-sans text-white;
+  }
+}
+
+/* Base React Styles - Delete Later */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

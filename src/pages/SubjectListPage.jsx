@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 const SubjectListPage = () => {
   // || States
@@ -37,6 +38,17 @@ const SubjectListPage = () => {
       });
   }, []);
 
+  // Horizontal Scrolling
+  const slideLeft = (sliderId) => {
+    const slider = document.getElementById(sliderId);
+    if (slider) slider.scrollLeft -= 500;
+  };
+
+  const slideRight = (sliderId) => {
+    const slider = document.getElementById(sliderId);
+    if (slider) slider.scrollLeft += 500;
+  };
+
   return (
     <div>
       <h1>Subjects for {semester}</h1>
@@ -47,15 +59,33 @@ const SubjectListPage = () => {
           <div key={letter}>
             <h2>{letter}</h2>
 
-            <ul>
-              {subjectsByLetter[letter].map((subject) => (
-                <li key={subject.value}>
-                  <Link to={`/${semester}/${subject.value}`}>
-                    {subject.value}: {subject.descrformal}
+            <div className="relative flex items-center">
+              <MdChevronLeft
+                onClick={() => slideLeft(`slider-${letter}`)}
+                size={40}
+                className="opacity-50 cursor-pointer hover:opacity-100"
+              />
+              <div
+                id={`slider-${letter}`}
+                className="flex w-full h-full overflow-x-scroll scroll scroll-smooth scrollbar-hide overflow-hidden"
+              >
+                {subjectsByLetter[letter].map((subject) => (
+                  <Link
+                    to={`/${semester}/${subject.value}`}
+                    key={subject.value}
+                    className="border-1 border-solid border-indigo-500 flex flex-col flex-shrink-0 justify-between items-start h-48 w-[250px] mx-2 p-2 cursor-pointer hover:scale-105 ease-in-out duration-300"
+                  >
+                    <p className="card-header">{subject.value}</p>
+                    <p className="text-left">{subject.descrformal}</p>
                   </Link>
-                </li>
-              ))}
-            </ul>
+                ))}
+              </div>
+              <MdChevronRight
+                onClick={() => slideRight(`slider-${letter}`)}
+                size={40}
+                className="opacity-50 cursor-pointer hover:opacity-100"
+              />
+            </div>
           </div>
         ))}
     </div>
