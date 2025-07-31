@@ -88,22 +88,29 @@ const CourseListPage = () => {
         const selectedSet = new Set(days);
 
         fetchedCourses = fetchedCourses.filter((course) => {
-          const allPatterns = course.enrollGroups.flatMap((group) =>
-            group.classSections.flatMap((section) =>
-              section.meetings.map((meeting) => meeting.pattern || "")
-            )
+          // Extract all section-level sets of days
+          const allSectionPatterns = course.enrollGroups.flatMap((group) =>
+            group.classSections.map((section) => {
+              const patterns = section.meetings.map((m) => m.pattern || "");
+              return extractDays(patterns); // Set of days for this section
+            })
           );
 
-          const courseDays = extractDays(allPatterns);
-
           if (daysType === "includes") {
-            return days.some((day) => courseDays.has(day));
+            // Keep course if any section includes at least one selected day
+            return allSectionPatterns.some((sectionDays) =>
+              days.some((day) => sectionDays.has(day))
+            );
           } else if (daysType === "only") {
-            if (courseDays.size !== selectedSet.size) return false;
-            for (let day of courseDays) {
-              if (!selectedSet.has(day)) return false;
-            }
-            return true;
+            // Keep course if any section's day set exactly matches selected days
+            return allSectionPatterns.some((sectionDays) => {
+              if (sectionDays.size !== selectedSet.size) return false;
+
+              for (let day of sectionDays) {
+                if (!selectedSet.has(day)) return false;
+              }
+              return true;
+            });
           }
           return true;
         });
