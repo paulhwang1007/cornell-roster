@@ -3,31 +3,26 @@ import { useParams } from "react-router-dom";
 import { useDebounce } from "react-use";
 
 const CourseListPage = () => {
-  // Previous Inputs
+  // || Inputs
   const { semester, subject } = useParams();
-  // Courses + Loading
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
-  // Search
+
+  // || Course Filters
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-  // Filters
+  useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
+
   const [acadCareers, setAcadCareers] = useState([]);
-  const [acadGroups, setAcadGroups] = useState([]);
   const [classLevels, setClassLevels] = useState([]);
   const [distrReqs, setDistrReqs] = useState([]);
   const [distrReqType, setDistrReqType] = useState("any");
-  const [explStudies, setExplStudies] = useState([]);
-  const [explStudiesType, setExplStudiesType] = useState("any");
   const [instructModes, setInstructModes] = useState([]);
-  // Other Filters
   const [credits, setCredits] = useState([]);
+  const [days, setDays] = useState([]);
+  const [daysType, setDaysType] = useState("includes");
 
-  // || Debounce Search Term
-  useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
-
-  // ||  Build Fetch URL based on Filters + Fetch Classes:
-  //     Roster and Subject from previous pages + Search Term
+  // ||  Dynamically Build Fetch URL
   const handleSearch = async () => {
     setLoading(true);
     setCourses([]);
@@ -43,10 +38,6 @@ const CourseListPage = () => {
         params.append("acadCareer[]", acadCareer)
       );
 
-      acadGroups.forEach((acadGroup) =>
-        params.append("acadGroup[]", acadGroup)
-      );
-
       classLevels.forEach((classLevel) =>
         params.append("classLevels[]", classLevel)
       );
@@ -54,27 +45,21 @@ const CourseListPage = () => {
       params.append("distrReqs-type", distrReqType);
       distrReqs.forEach((distrReq) => params.append("distrReqs[]", distrReq));
 
-      params.append("explStudies-type", explStudiesType);
-      explStudies.forEach((explStudy) =>
-        params.append("explStudies[]", explStudy)
-      );
-
       instructModes.forEach((instructMode) =>
         params.append("instructMode[]", instructMode)
       );
 
-      // Search Bar Term
       if (debouncedSearchTerm) {
         params.set("q", debouncedSearchTerm);
       }
 
-      // Build Full URL w/ Params and then Fetch
+      // Build Full URL w/ Params
       const url = `https://classes.cornell.edu/api/2.0/search/classes.json?${params.toString()}`;
       const response = await fetch(url);
       const data = await response.json();
       let fetchedCourses = data.data.classes || [];
 
-      // Local filter for credits
+      // Local filter for Credits
       if (credits.length > 0) {
         fetchedCourses = fetchedCourses.filter((course) =>
           course.enrollGroups.some((group) => {
@@ -98,6 +83,37 @@ const CourseListPage = () => {
         );
       }
 
+      // Local Filter for Days of the Week
+      if (days.length > 0) {
+        const selectedSet = new Set(days);
+
+        fetchedCourses = fetchedCourses.filter((course) => {
+          const allPatterns = course.enrollGroups.flatMap((group) =>
+            group.classSections.flatMap((section) =>
+              section.meetings.map((meeting) => meeting.pattern || "")
+            )
+          );
+
+          const courseDays = new Set(
+            allPatterns
+              .join("")
+              .split("")
+              .filter((day) => "MTWRFSSu".includes(day))
+          );
+
+          if (daysType === "includes") {
+            return days.some((day) => courseDays.has(day));
+          } else if (daysType === "only") {
+            if (courseDays.size !== selectedSet.size) return false;
+            for (let day of courseDays) {
+              if (!selectedSet.has(day)) return false;
+            }
+            return true;
+          }
+          return true;
+        });
+      }
+
       setCourses(fetchedCourses);
     } catch (error) {
       console.error("Error Fetching Courses: ", error);
@@ -111,13 +127,12 @@ const CourseListPage = () => {
     handleSearch();
   }, []);
 
-  // Fetch Classes when Search Term Changes after debounce
+  // Fetch Classes when Search Term debounces
   useEffect(() => {
     handleSearch();
   }, [debouncedSearchTerm]);
 
-  // || Handlers for Search Filters
-  // Acad Careers
+  // || Handlers for Filters
   const handleAcadCareerChange = (e) => {
     const acadCareer = e.target.value;
     setAcadCareers((prev) =>
@@ -127,17 +142,6 @@ const CourseListPage = () => {
     );
   };
 
-  // Acad Groups
-  const handleAcadGroupChange = (e) => {
-    const acadGroup = e.target.value;
-    setAcadGroups((prev) =>
-      e.target.checked
-        ? [...prev, acadGroup]
-        : prev.filter((l) => l !== acadGroup)
-    );
-  };
-
-  // Class Levels
   const handleClassLevelChange = (e) => {
     const classLevel = e.target.value;
     setClassLevels((prev) =>
@@ -147,7 +151,6 @@ const CourseListPage = () => {
     );
   };
 
-  // Distribution Requirements
   const handleDistrReqChange = (e) => {
     const distrReq = e.target.value;
     setDistrReqs((prev) =>
@@ -162,24 +165,6 @@ const CourseListPage = () => {
     setDistrReqType((prev) => (prev === distrReqType ? "" : distrReqType));
   };
 
-  // Exploratory Studies
-  const handleExplStudiesChange = (e) => {
-    const explStudy = e.target.value;
-    setExplStudies((prev) =>
-      e.target.checked
-        ? [...prev, explStudy]
-        : prev.filter((l) => l !== explStudy)
-    );
-  };
-
-  const handleExplStudiesTypeChange = (e) => {
-    const explStudiesType = e.target.value;
-    setExplStudiesType((prev) =>
-      prev === explStudiesType ? "" : explStudiesType
-    );
-  };
-
-  // Instruction Mode
   const handleInstructModeChange = (e) => {
     const instructMode = e.target.value;
     setInstructModes((prev) =>
@@ -189,8 +174,6 @@ const CourseListPage = () => {
     );
   };
 
-  // || Other Filters
-  // Credits
   const handleCreditChange = (e) => {
     const credits = e.target.value;
 
@@ -198,6 +181,13 @@ const CourseListPage = () => {
       e.target.checked
         ? [...prev, credits]
         : prev.filter((credit) => credit !== credits)
+    );
+  };
+
+  const handleDayChange = (e) => {
+    const day = e.target.value;
+    setDays((prev) =>
+      e.target.checked ? [...prev, day] : prev.filter((d) => d !== day)
     );
   };
 
@@ -239,85 +229,6 @@ const CourseListPage = () => {
 
         <label>
           <input type="checkbox" value="VM" onChange={handleAcadCareerChange} />{" "}
-          Veterinary Medicine
-        </label>
-      </div>
-
-      {/* Acad Group Filter 
-      TODO: Take out of CourseList and put into SubjectList */}
-      <div>
-        <label>
-          <input type="checkbox" value="AG" onChange={handleAcadGroupChange} />
-          Agricultural and Life Sciences
-        </label>
-
-        <label>
-          <input type="checkbox" value="AR" onChange={handleAcadGroupChange} />
-          Architecture, Art, and Planning
-        </label>
-
-        <label>
-          <input type="checkbox" value="AS" onChange={handleAcadGroupChange} />
-          Arts and Sciences
-        </label>
-
-        <label>
-          <input type="checkbox" value="AT" onChange={handleAcadGroupChange} />
-          Athletics
-        </label>
-
-        <label>
-          <input type="checkbox" value="BU" onChange={handleAcadGroupChange} />
-          Business
-        </label>
-
-        <label>
-          <input type="checkbox" value="CT" onChange={handleAcadGroupChange} />
-          Cornell Tech
-        </label>
-
-        <label>
-          <input type="checkbox" value="CU" onChange={handleAcadGroupChange} />
-          Cornell University
-        </label>
-
-        <label>
-          <input type="checkbox" value="EN" onChange={handleAcadGroupChange} />
-          Engineering
-        </label>
-
-        <label>
-          <input type="checkbox" value="GR" onChange={handleAcadGroupChange} />
-          Graduate
-        </label>
-
-        <label>
-          <input type="checkbox" value="HE" onChange={handleAcadGroupChange} />
-          Human Ecology
-        </label>
-
-        <label>
-          <input type="checkbox" value="IL" onChange={handleAcadGroupChange} />
-          Industrial and Labor Relations
-        </label>
-
-        <label>
-          <input type="checkbox" value="LA" onChange={handleAcadGroupChange} />
-          Law
-        </label>
-
-        <label>
-          <input type="checkbox" value="PP" onChange={handleAcadGroupChange} />
-          Public Policy
-        </label>
-
-        <label>
-          <input type="checkbox" value="OT" onChange={handleAcadGroupChange} />
-          Reserve Officer Training
-        </label>
-
-        <label>
-          <input type="checkbox" value="VM" onChange={handleAcadGroupChange} />
           Veterinary Medicine
         </label>
       </div>
@@ -1021,174 +932,6 @@ const CourseListPage = () => {
         </label>
       </div>
 
-      {/* Exploratory Studies Type */}
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            value="any"
-            checked={explStudiesType === "any"}
-            onChange={handleExplStudiesTypeChange}
-          />
-          Any
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="all"
-            checked={explStudiesType === "all"}
-            onChange={handleExplStudiesTypeChange}
-          />
-          All
-        </label>
-      </div>
-      {/* Exploratory Studies Filter */}
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            value="AFAREA"
-            onChange={handleExplStudiesChange}
-          />
-          Africana Area
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="AFLANG"
-            onChange={handleExplStudiesChange}
-          />
-          Africana Lang
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="EAAREA"
-            onChange={handleExplStudiesChange}
-          />
-          East Asia Area
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="EALANG"
-            onChange={handleExplStudiesChange}
-          />
-          East Asia Lang
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="CU-CEL"
-            onChange={handleExplStudiesChange}
-          />
-          Engaged Learning
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="EUAREA"
-            onChange={handleExplStudiesChange}
-          />
-          European Area
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="EULANG"
-            onChange={handleExplStudiesChange}
-          />
-          European Lang
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="CU-ITL"
-            onChange={handleExplStudiesChange}
-          />
-          International Ed
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="LAAREA"
-            onChange={handleExplStudiesChange}
-          />
-          Latin American Area
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="LALANG"
-            onChange={handleExplStudiesChange}
-          />
-          Latin American Lang
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SEAREA"
-            onChange={handleExplStudiesChange}
-          />
-          Southeast Asia Area
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SELANG"
-            onChange={handleExplStudiesChange}
-          />
-          Southeast Asian Lang
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SAAREA"
-            onChange={handleExplStudiesChange}
-          />
-          South Asia Area
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SALANG"
-            onChange={handleExplStudiesChange}
-          />
-          South Asian Lang
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="CU-SBY"
-            onChange={handleExplStudiesChange}
-          />
-          Sustainability
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="CU-UGR"
-            onChange={handleExplStudiesChange}
-          />
-          Undegraduate Research
-        </label>
-      </div>
-
       {/* Instruction Mode Filter */}
       <div>
         <label>
@@ -1344,9 +1087,109 @@ const CourseListPage = () => {
         </label>
       </div>
 
+      {/* Days Type */}
+      <div>
+        <fieldset className="mt-2">
+          <legend className="font-semibold mb-1">Day Match Type:</legend>
+
+          <label className="mr-4">
+            <input
+              type="radio"
+              value="includes"
+              checked={daysType === "includes"}
+              onChange={(e) => setDaysType(e.target.value)}
+            />
+            <span className="ml-1">Includes Selected Days</span>
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              value="only"
+              checked={daysType === "only"}
+              onChange={(e) => setDaysType(e.target.value)}
+            />
+            <span className="ml-1">Only Selected Days</span>
+          </label>
+        </fieldset>
+      </div>
+
+      {/* Days of the Week */}
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            value="M"
+            onChange={handleDayChange}
+            checked={days.includes("M")}
+          />
+          Monday
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="T"
+            onChange={handleDayChange}
+            checked={days.includes("T")}
+          />
+          Tuesday
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="W"
+            onChange={handleDayChange}
+            checked={days.includes("W")}
+          />
+          Wednesday
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="R"
+            onChange={handleDayChange}
+            checked={days.includes("R")}
+          />
+          Thursday
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="F"
+            onChange={handleDayChange}
+            checked={days.includes("F")}
+          />
+          Friday
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="S"
+            onChange={handleDayChange}
+            checked={days.includes("S")}
+          />
+          Saturday
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            value="Su"
+            onChange={handleDayChange}
+            checked={days.includes("Su")}
+          />
+          Sunday
+        </label>
+      </div>
+
       <button onClick={handleSearch}>Apply Filters</button>
 
-      {/* Load Courses */}
+      {/* Courses */}
       {loading ? (
         <p className="text-gray-500">Loading Courses...</p>
       ) : (
