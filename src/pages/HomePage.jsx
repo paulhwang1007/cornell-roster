@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuroraBackgroundDemo } from "../components/background";
 
 const HomePage = () => {
   // || States
@@ -31,23 +32,25 @@ const HomePage = () => {
   };
 
   return (
-    <div>
-      <h1>Home Page</h1>
-      <label>Select a Roster:</label>
-      <select value={selectedSemester} onChange={handleSemesterChange}>
-        <option value="">Choose a Semester</option>
-        {rosters
-          .slice()
-          .reverse()
-          .map((roster) => (
-            <option key={roster.slug} value={roster.slug}>
-              {roster.descr}
-            </option>
-          ))}
-      </select>
+    <AuroraBackgroundDemo>
+      <div className="text-white flex flex-col items-center gap-4">
+        <h1>Home Page</h1>
+        <label>Select a Roster:</label>
+        <select value={selectedSemester} onChange={handleSemesterChange}>
+          <option value="">Choose a Semester</option>
+          {rosters
+            .slice()
+            .reverse()
+            .map((roster) => (
+              <option key={roster.slug} value={roster.slug}>
+                {roster.descr}
+              </option>
+            ))}
+        </select>
 
-      <button onClick={handleSubmit}>Submit</button>
-    </div>
+        <button onClick={handleSubmit}>Submit</button>
+      </div>
+    </AuroraBackgroundDemo>
   );
 };
 
