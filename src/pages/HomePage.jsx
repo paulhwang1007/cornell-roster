@@ -35,21 +35,27 @@ const HomePage = () => {
   return (
     <AuroraBackgroundDemo className="min-h-screen w-full flex items-center justify-center">
       <div className="text-center max-w-3xl space-y-5 z-10 flex flex-col items-center gap-4">
-        <h1 className="h-fit text-7xl tracking-tight bg-clip-text bg-gradient-to-r from-red-500 via-red-400 to-rose-300 text-transparent font-semibold">
+        <h1 className="h-fit text-7xl tracking-tight bg-clip-text bg-gradient-to-r from-red-500 via-red-400 to-rose-300 text-transparent font-semibold m-0">
           Search Cornell Classes
         </h1>
-        <p className="text-gray-300 text-lg text-pretty">
-          A streamlined and visually enhanced platform for browsing Cornell
-          classes across any term.
+        <p className="text-gray-300 text-lg text-pretty mb-5">
+          A better way to browse Cornell classes across any semester.
         </p>
 
-        <RosterSelect
-          rosters={rosters}
-          value={selectedSemester}
-          onChange={handleSemesterChange}
-        ></RosterSelect>
+        <div className="flex gap-4">
+          <RosterSelect
+            rosters={rosters}
+            value={selectedSemester}
+            onChange={handleSemesterChange}
+          ></RosterSelect>
 
-        <button onClick={handleSubmit}>Submit</button>
+          <button
+            onClick={handleSubmit}
+            className="w-[12rem] h-[2.5rem] text-base text-black bg-white/80 hover:bg-white/90 rounded-md hover:cursor-pointer"
+          >
+            Submit
+          </button>
+        </div>
       </div>
     </AuroraBackgroundDemo>
   );

@@ -2,8 +2,6 @@
 @import "tailwind-scrollbar-hide/v4";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 /* Aceternity UI - Aurora Background */
 @theme inline {
   --animate-aurora: aurora 60s linear infinite;
@@ -49,7 +47,7 @@
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px)
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 @theme {
@@ -139,3 +137,5 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* RosterSelect.jsx */
