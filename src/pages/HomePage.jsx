@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuroraBackgroundDemo } from "../components/background";
+import RosterSelect from "../components/rosterSelect";
 
 const HomePage = () => {
   // || States
@@ -21,8 +22,8 @@ const HomePage = () => {
   }, []);
 
   // || Handle Changes
-  const handleSemesterChange = (e) => {
-    setSelectedSemester(e.target.value);
+  const handleSemesterChange = (value) => {
+    setSelectedSemester(value);
   };
 
   const handleSubmit = () => {
@@ -32,21 +33,21 @@ const HomePage = () => {
   };
 
   return (
-    <AuroraBackgroundDemo>
-      <div className="text-white flex flex-col items-center gap-4">
-        <h1>Home Page</h1>
-        <label>Select a Roster:</label>
-        <select value={selectedSemester} onChange={handleSemesterChange}>
-          <option value="">Choose a Semester</option>
-          {rosters
-            .slice()
-            .reverse()
-            .map((roster) => (
-              <option key={roster.slug} value={roster.slug}>
-                {roster.descr}
-              </option>
-            ))}
-        </select>
+    <AuroraBackgroundDemo className="min-h-screen w-full flex items-center justify-center">
+      <div className="text-center max-w-3xl space-y-5 z-10 flex flex-col items-center gap-4">
+        <h1 className="h-fit text-7xl tracking-tight bg-clip-text bg-gradient-to-r from-red-500 via-red-400 to-rose-300 text-transparent font-semibold">
+          Search Cornell Classes
+        </h1>
+        <p className="text-gray-300 text-lg text-pretty">
+          A streamlined and visually enhanced platform for browsing Cornell
+          classes across any term.
+        </p>
+
+        <RosterSelect
+          rosters={rosters}
+          value={selectedSemester}
+          onChange={handleSemesterChange}
+        ></RosterSelect>
 
         <button onClick={handleSubmit}>Submit</button>
       </div>
