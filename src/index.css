@@ -1,10 +1,7 @@
 @import "tailwindcss";
 @import "tailwind-scrollbar-hide/v4";
 
-@theme {
-  --font-sans: "Open Sans", sans-serif;
-}
-
+/* Aceternity UI - Aurora Background */
 @theme inline {
   --animate-aurora: aurora 60s linear infinite;
   @keyframes aurora {
@@ -15,6 +12,10 @@
       background-position: 350% 50%, 350% 50%;
     }
   }
+}
+
+@theme {
+  --font-sans: "Open Sans", sans-serif;
 }
 
 @layer components {
