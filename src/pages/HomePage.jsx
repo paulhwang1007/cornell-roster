@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuroraBackgroundDemo } from "../components/background";
 import RosterSelect from "../components/rosterSelect";
+import { AuroraBackgroundDemo } from "../components/background";
 
 const HomePage = () => {
   // || States
@@ -51,7 +51,7 @@ const HomePage = () => {
 
           <button
             onClick={handleSubmit}
-            className="w-[12rem] h-[2.5rem] text-base text-black bg-white/80 hover:bg-white/90 rounded-md hover:cursor-pointer"
+            className="w-[12rem] h-[2.5rem] text-base text-black bg-white/90 hover:bg-white rounded-md hover:cursor-pointer transition ease-in duration-0.1"
           >
             Submit
           </button>

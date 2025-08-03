@@ -3,9 +3,9 @@
 import { motion } from "motion/react";
 import { AuroraBackground } from "../components/ui/aurora-bg";
 
-export function AuroraBackgroundDemo({ children }) {
+export function AuroraBackgroundSubjects({ children }) {
   return (
-    <AuroraBackground className="justify-center items-center">
+    <AuroraBackground className="w-full">
       <motion.div
         initial={{ opacity: 0.0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -14,7 +14,7 @@ export function AuroraBackgroundDemo({ children }) {
           duration: 1.25,
           ease: "easeInOut",
         }}
-        className="relative flex flex-col gap-4 items-center justify-center px-4"
+        className="w-full px-4 py-10 z-10"
       >
         {children}
       </motion.div>

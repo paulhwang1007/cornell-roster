@@ -2,7 +2,7 @@
 @import "tailwind-scrollbar-hide/v4";
 @import "tw-animate-css";
 
-/* Aceternity UI - Aurora Background */
+/* || Aceternity UI - Aurora Background */
 @theme inline {
   --animate-aurora: aurora 60s linear infinite;
   --color-sidebar-ring: var(--sidebar-ring);
@@ -50,16 +50,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-@theme {
-  --font-sans: "Open Sans", sans-serif;
-}
-
-@layer components {
-  .card-header {
-    @apply text-xl font-normal font-sans text-white;
-  }
-}
-
+/* || Shadcn */
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -129,6 +120,13 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* || Tailwind */
+@layer components {
+  .card-header {
+    @apply text-xl font-normal font-sans text-white;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -138,4 +136,7 @@
   }
 }
 
-/* RosterSelect.jsx */
+/* || CSS */
+* {
+  font-family: "Inter", sans-serif;
+}
