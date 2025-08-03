@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDebounce } from "react-use";
+import { AuroraBackgroundSubjects } from "../components/backgroundSubjects";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import CheckboxGroupAccordion from "../components/CheckboxGroupAccordion";
 
 const CourseListPage = () => {
   // || Inputs
@@ -21,6 +29,125 @@ const CourseListPage = () => {
   const [credits, setCredits] = useState([]);
   const [days, setDays] = useState([]);
   const [daysType, setDaysType] = useState("includes");
+
+  const filterOptions = {
+    acadCareerOptions: [
+      { label: "Undergraduate", value: "UG" },
+      { label: "Graduate", value: "GR" },
+      { label: "Graduate Management", value: "GM" },
+      { label: "Law", value: "LA" },
+      { label: "Veterinary Medicine", value: "VM" },
+    ],
+    classLevelOptions: [
+      { label: "1000-level", value: "1000" },
+      { label: "2000-level", value: "2000" },
+      { label: "3000-level", value: "3000" },
+      { label: "4000-level", value: "4000" },
+      { label: "5000-level", value: "5000" },
+      { label: "6000-level", value: "6000" },
+      { label: "7000-level", value: "7000" },
+      { label: "8000-level", value: "8000" },
+      { label: "9000-level", value: "9000" },
+    ],
+    distrReqOptions: [
+      { label: "AFS-AG", value: "AFS-AG" },
+      { label: "ALC-AAP", value: "ALC-AAP" },
+      { label: "ALC-AS", value: "ALC-AS" },
+      { label: "ALC-HA", value: "ALC-HA" },
+      { label: "AWI-IL", value: "AWI-IL" },
+      { label: "BIO-AG", value: "BIO-AG" },
+      { label: "BIO-AS", value: "BIO-AS" },
+      { label: "BSC-AG", value: "BSC-AG" },
+      { label: "CA-AG", value: "CA-AG" },
+      { label: "CA-HE", value: "CA-HE" },
+      { label: "CE-EN", value: "CE-EN" },
+      { label: "CHPH-AG", value: "CHPH-AG" },
+      { label: "D-AG", value: "D-AG" },
+      { label: "DLG-AG", value: "DLG-AG" },
+      { label: "DLS-AG", value: "DLS-AG" },
+      { label: "EEE-AG", value: "EEE-AG" },
+      { label: "ETH-AG", value: "ETH-AG" },
+      { label: "ETM-AAP", value: "ETM-AAP" },
+      { label: "ETM-AS", value: "ETM-AS" },
+      { label: "ETM-HA", value: "ETM-HA" },
+      { label: "FL-AG", value: "FL-AG" },
+      { label: "FLOPI-AS", value: "FLOPI-AS" },
+      { label: "GLC-AAP", value: "GLC-AAP" },
+      { label: "GLC-AS", value: "GLC-AS" },
+      { label: "GLC-HA", value: "GLC-HA" },
+      { label: "HA-AG", value: "HA-AG" },
+      { label: "HA-HE", value: "HA-HE" },
+      { label: "HST-AAP", value: "HST-AAP" },
+      { label: "HST-AS", value: "HST-AS" },
+      { label: "HST-HA", value: "HST-HA" },
+      { label: "ICE-IL", value: "ICE-IL" },
+      { label: "ICL-IL", value: "ICL-IL" },
+      { label: "KCM-AG", value: "KCM-AG" },
+      { label: "KCM-HE", value: "KCM-HE" },
+      { label: "LA-AG", value: "LA-AG" },
+      { label: "LAD-HE", value: "LAD-HE" },
+      { label: "LH-IL", value: "LH-IL" },
+      { label: "MQL-AG", value: "MQL-AG" },
+      { label: "MQR-AAP", value: "MQR-AAP" },
+      { label: "MQR-HE", value: "MQR-HE" },
+      { label: "OCE-IL", value: "OCE-IL" },
+      { label: "OCL-IL", value: "OCL-IL" },
+      { label: "OPHLS-AG", value: "OPHLS-AG" },
+      { label: "ORL-AG", value: "ORL-AG" },
+      { label: "PBS-HE", value: "PBS-HE" },
+      { label: "PHS-AS", value: "PHS-AS" },
+      { label: "PSC-AG", value: "PSC-AG" },
+      { label: "QP-IL", value: "QP-IL" },
+      { label: "SBA-AG", value: "SBA-AG" },
+      { label: "SBA-HE", value: "SBA-HE" },
+      { label: "SCD-AAP", value: "SCD-AAP" },
+      { label: "SCD-AS", value: "SCD-AS" },
+      { label: "SCD-HA", value: "SCD-HA" },
+      { label: "SCH-AG", value: "SCH-AG" },
+      { label: "SCT-IL", value: "SCT-IL" },
+      { label: "SDS-AAP", value: "SDS-AAP" },
+      { label: "SDS-AS", value: "SDS-AS" },
+      { label: "SDS-HA", value: "SDS-HA" },
+      { label: "SMR-AAP", value: "SMR-AAP" },
+      { label: "SMR-AS", value: "SMR-AS" },
+      { label: "SMR-HA", value: "SMR-HA" },
+      { label: "SOW-IL", value: "SOW-IL" },
+      { label: "SSC-AAP", value: "SSC-AAP" },
+      { label: "SSC-AS", value: "SSC-AS" },
+      { label: "SSC-HA", value: "SSC-HA" },
+      { label: "STA-IL", value: "STA-IL" },
+      { label: "WRT-AG", value: "WRT-AG" },
+    ],
+    instrModeOptions: [
+      { label: "Directed Research", value: "RE" },
+      { label: "Distance Learning: Asynchronous", value: "AD" },
+      { label: "Distance Learning: Synchronous", value: "SD" },
+      { label: "Hybrid: Online + In-Person", value: "HY" },
+      { label: "Independent Studies", value: "IS" },
+      { label: "Online", value: "OL" },
+    ],
+    creditOptions: [
+      { label: "0-1 Credits", value: "0" },
+      { label: "1 Credit", value: "1" },
+      { label: "2 Credits", value: "2" },
+      { label: "3 Credits", value: "3" },
+      { label: "4 Credits", value: "4" },
+      { label: "5 Credits", value: "5" },
+      { label: "6 Credits", value: "6" },
+      { label: "7 Credits", value: "7" },
+      { label: "8 Credits", value: "8" },
+      { label: "9 Credits", value: "9" },
+    ],
+    classDayOptions: [
+      { label: "Monday", value: "M" },
+      { label: "Tuesday", value: "T" },
+      { label: "Wednesday", value: "W" },
+      { label: "Thursday", value: "R" },
+      { label: "Friday", value: "F" },
+      { label: "Saturday", value: "S" },
+      { label: "Sunday", value: "Su" },
+    ],
+  };
 
   // ||  Dynamically Build Fetch URL
   const handleSearch = async () => {
@@ -135,57 +262,23 @@ const CourseListPage = () => {
   }, [debouncedSearchTerm]);
 
   // || Handlers for Filters
-  const handleAcadCareerChange = (e) => {
-    const acadCareer = e.target.value;
-    setAcadCareers((prev) =>
-      e.target.checked
-        ? [...prev, acadCareer]
-        : prev.filter((l) => l !== acadCareer)
+  const createCheckboxHandler = (setter) => (e) => {
+    const value = e.target.value;
+    setter((prev) =>
+      e.target.checked ? [...prev, value] : prev.filter((v) => v !== value)
     );
   };
 
-  const handleClassLevelChange = (e) => {
-    const classLevel = e.target.value;
-    setClassLevels((prev) =>
-      e.target.checked
-        ? [...prev, classLevel]
-        : prev.filter((l) => l !== classLevel)
-    );
-  };
-
-  const handleDistrReqChange = (e) => {
-    const distrReq = e.target.value;
-    setDistrReqs((prev) =>
-      e.target.checked
-        ? [...prev, distrReq]
-        : prev.filter((l) => l !== distrReq)
-    );
-  };
-
+  const handleAcadCareerChange = createCheckboxHandler(setAcadCareers);
+  const handleClassLevelChange = createCheckboxHandler(setClassLevels);
+  const handleDistrReqChange = createCheckboxHandler(setDistrReqs);
   const handleDistrReqTypeChange = (e) => {
     const distrReqType = e.target.value;
     setDistrReqType((prev) => (prev === distrReqType ? "" : distrReqType));
   };
-
-  const handleInstructModeChange = (e) => {
-    const instructMode = e.target.value;
-    setInstructModes((prev) =>
-      e.target.checked
-        ? [...prev, instructMode]
-        : prev.filter((l) => l !== instructMode)
-    );
-  };
-
-  const handleCreditChange = (e) => {
-    const credits = e.target.value;
-
-    setCredits((prev) =>
-      e.target.checked
-        ? [...prev, credits]
-        : prev.filter((credit) => credit !== credits)
-    );
-  };
-
+  const handleInstructModeChange = createCheckboxHandler(setInstructModes);
+  const handleCreditChange = createCheckboxHandler(setCredits);
+  const handleDayChange = createCheckboxHandler(setDays);
   const extractDays = (patterns) => {
     const dayTokens = [];
 
@@ -205,1029 +298,179 @@ const CourseListPage = () => {
     return new Set(dayTokens);
   };
 
-  const handleDayChange = (e) => {
-    const day = e.target.value;
-    setDays((prev) =>
-      e.target.checked ? [...prev, day] : prev.filter((d) => d !== day)
-    );
-  };
-
   return (
-    <div>
-      <h1>Course List</h1>
-      <h2>{semester}</h2>
-      <h2>{subject}</h2>
-
-      {/* Search Bar */}
-      <input
-        type="text"
-        placeholder="Search for a course..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-
-      {/* Acad Career Filter */}
-      <div>
-        <label>
-          <input type="checkbox" value="UG" onChange={handleAcadCareerChange} />{" "}
-          Undergraduate
-        </label>
-
-        <label>
-          <input type="checkbox" value="GR" onChange={handleAcadCareerChange} />{" "}
-          Graduate
-        </label>
-
-        <label>
-          <input type="checkbox" value="GM" onChange={handleAcadCareerChange} />{" "}
-          Graduate Management
-        </label>
-
-        <label>
-          <input type="checkbox" value="LA" onChange={handleAcadCareerChange} />{" "}
-          Law
-        </label>
-
-        <label>
-          <input type="checkbox" value="VM" onChange={handleAcadCareerChange} />{" "}
-          Veterinary Medicine
-        </label>
+    <AuroraBackgroundSubjects>
+      <div className="w-full max-w-7xl mx-auto py-12 px-6 flex flex-col md:flex-row justify-between items-center0">
+        <h1 className="text-4xl md:text-5xl font-bold text-white">
+          Courses for {subject} - {semester}
+        </h1>
+        <Link to={`/${semester}`}>
+          <button className="mt-4 md:mt-0 bg-white text-black px-4 py-2 rounded-md shadow hover:bg-zinc-200 hover:cursor-pointer">
+            Back to Subjects
+          </button>
+        </Link>
       </div>
 
-      {/* Class Level Filter */}
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            value="1000"
-            onChange={handleClassLevelChange}
-          />
-          1000-level
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="2000"
-            onChange={handleClassLevelChange}
-          />
-          2000-level
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="3000"
-            onChange={handleClassLevelChange}
-          />
-          3000-level
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="4000"
-            onChange={handleClassLevelChange}
-          />
-          4000-level
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="5000"
-            onChange={handleClassLevelChange}
-          />
-          5000-level
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="6000"
-            onChange={handleClassLevelChange}
-          />
-          6000-level
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="7000"
-            onChange={handleClassLevelChange}
-          />
-          7000-level
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="8000"
-            onChange={handleClassLevelChange}
-          />
-          8000-level
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="9000"
-            onChange={handleClassLevelChange}
-          />
-          9000-level
-        </label>
-      </div>
-
-      {/* Distribution Requirement Type */}
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            value="any"
-            checked={distrReqType === "any"}
-            onChange={handleDistrReqTypeChange}
-          />
-          Any
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="all"
-            checked={distrReqType === "all"}
-            onChange={handleDistrReqTypeChange}
-          />
-          All
-        </label>
-      </div>
-      {/* Distribution Requirement Filter */}
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            value="AFS-AG"
-            onChange={handleDistrReqChange}
-          />
-          AFS-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="ALC-AAP"
-            onChange={handleDistrReqChange}
-          />
-          ALC-AAP
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="ALC-AS"
-            onChange={handleDistrReqChange}
-          />
-          ALC-AS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="ALC-HA"
-            onChange={handleDistrReqChange}
-          />
-          ALC-HA
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="AWI-IL"
-            onChange={handleDistrReqChange}
-          />
-          AWI-IL
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="BIO-AG"
-            onChange={handleDistrReqChange}
-          />
-          BIO-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="BIO-AS"
-            onChange={handleDistrReqChange}
-          />
-          BIO-AS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="BSC-AG"
-            onChange={handleDistrReqChange}
-          />
-          BSC-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="CA-AG"
-            onChange={handleDistrReqChange}
-          />
-          CA-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="CA-HE"
-            onChange={handleDistrReqChange}
-          />
-          CA-HE
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="CE-EN"
-            onChange={handleDistrReqChange}
-          />
-          CE-EN
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="CHPH-AG"
-            onChange={handleDistrReqChange}
-          />
-          CHPH-AG
-        </label>
-
-        <label>
-          <input type="checkbox" value="D-AG" onChange={handleDistrReqChange} />
-          D-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="DLG-AG"
-            onChange={handleDistrReqChange}
-          />
-          DLG-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="DLS-AG"
-            onChange={handleDistrReqChange}
-          />
-          DLS-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="EEE-AG"
-            onChange={handleDistrReqChange}
-          />
-          EEE-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="ETH-AG"
-            onChange={handleDistrReqChange}
-          />
-          ETH-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="ETM-AAP"
-            onChange={handleDistrReqChange}
-          />
-          ETM-AAP
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="ETM-AS"
-            onChange={handleDistrReqChange}
-          />
-          ETM-AS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="ETM-HA"
-            onChange={handleDistrReqChange}
-          />
-          ETM-HA
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="FL-AG"
-            onChange={handleDistrReqChange}
-          />
-          FL-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="FLOPI-AS"
-            onChange={handleDistrReqChange}
-          />
-          FLOPI-AS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="GLC-AAP"
-            onChange={handleDistrReqChange}
-          />
-          GLC-AAP
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="GLC-AS"
-            onChange={handleDistrReqChange}
-          />
-          GLC-AS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="GLC-HA"
-            onChange={handleDistrReqChange}
-          />
-          GLC-HA
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="HA-AG"
-            onChange={handleDistrReqChange}
-          />
-          HA-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="HA-HE"
-            onChange={handleDistrReqChange}
-          />
-          HA-HE
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="HST-AAP"
-            onChange={handleDistrReqChange}
-          />
-          HST-AAP
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="HST-AS"
-            onChange={handleDistrReqChange}
-          />
-          HST-AS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="HST-HA"
-            onChange={handleDistrReqChange}
-          />
-          HST-HA
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="ICE-IL"
-            onChange={handleDistrReqChange}
-          />
-          ICE-IL
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="ICL-IL"
-            onChange={handleDistrReqChange}
-          />
-          ICL-IL
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="KCM-AG"
-            onChange={handleDistrReqChange}
-          />
-          KCM-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="KCM-HE"
-            onChange={handleDistrReqChange}
-          />
-          KCM-HE
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="LA-AG"
-            onChange={handleDistrReqChange}
-          />
-          LA-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="LAD-HE"
-            onChange={handleDistrReqChange}
-          />
-          LAD-HE
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="LH-IL"
-            onChange={handleDistrReqChange}
-          />
-          LH-IL
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="MQL-AG"
-            onChange={handleDistrReqChange}
-          />
-          MQL-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="MQR-AAP"
-            onChange={handleDistrReqChange}
-          />
-          MQR-AAP
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="MQR-HE"
-            onChange={handleDistrReqChange}
-          />
-          MQR-HE
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="OCE-IL"
-            onChange={handleDistrReqChange}
-          />
-          OCE-IL
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="OCL-IL"
-            onChange={handleDistrReqChange}
-          />
-          OCL-IL
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="OPHLS-AG"
-            onChange={handleDistrReqChange}
-          />
-          OPHLS-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="ORL-AG"
-            onChange={handleDistrReqChange}
-          />
-          ORL-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="PBS-HE"
-            onChange={handleDistrReqChange}
-          />
-          PBS-HE
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="PHS-AS"
-            onChange={handleDistrReqChange}
-          />
-          PHS-AS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="PSC-AG"
-            onChange={handleDistrReqChange}
-          />
-          PSC-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="QP-IL"
-            onChange={handleDistrReqChange}
-          />
-          QP-IL
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SBA-AG"
-            onChange={handleDistrReqChange}
-          />
-          SBA-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SBA-HE"
-            onChange={handleDistrReqChange}
-          />
-          SBA-HE
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SCD-AAP"
-            onChange={handleDistrReqChange}
-          />
-          SCD-AAP
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SCD-AS"
-            onChange={handleDistrReqChange}
-          />
-          SCD-AS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SCD-HA"
-            onChange={handleDistrReqChange}
-          />
-          SCD-HA
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SCH-AG"
-            onChange={handleDistrReqChange}
-          />
-          SCH-AG
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SCT-IL"
-            onChange={handleDistrReqChange}
-          />
-          SCT-IL
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SDS-AAP"
-            onChange={handleDistrReqChange}
-          />
-          SDS-AAP
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SDS-AS"
-            onChange={handleDistrReqChange}
-          />
-          SDS-AS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SDS-HA"
-            onChange={handleDistrReqChange}
-          />
-          SDS-HA
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SMR-AAP"
-            onChange={handleDistrReqChange}
-          />
-          SMR-AAP
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SMR-AS"
-            onChange={handleDistrReqChange}
-          />
-          SMR-AS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SMR-HA"
-            onChange={handleDistrReqChange}
-          />
-          SMR-HA
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SOW-IL"
-            onChange={handleDistrReqChange}
-          />
-          SOW-IL
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SSC-AAP"
-            onChange={handleDistrReqChange}
-          />
-          SSC-AAP
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SSC-AS"
-            onChange={handleDistrReqChange}
-          />
-          SSC-AS
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SSC-HA"
-            onChange={handleDistrReqChange}
-          />
-          SSC-HA
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="STA-IL"
-            onChange={handleDistrReqChange}
-          />
-          STA-IL
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="WRT-AG"
-            onChange={handleDistrReqChange}
-          />
-          WRT-AG
-        </label>
-      </div>
-
-      {/* Instruction Mode Filter */}
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            value="RE"
-            onChange={handleInstructModeChange}
-          />
-          Directed Research
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="AD"
-            onChange={handleInstructModeChange}
-          />
-          Distance Learning: Asynchronous
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="SD"
-            onChange={handleInstructModeChange}
-          />
-          Distance Learning: Synchronous
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="HY"
-            onChange={handleInstructModeChange}
-          />
-          Hybrid: Online + In-Person
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="IS"
-            onChange={handleInstructModeChange}
-          />
-          Independent Studies
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="OL"
-            onChange={handleInstructModeChange}
-          />
-          Online
-        </label>
-      </div>
-
-      {/* Credits */}
-      <div>
-        <label>
-          <input type="checkbox" value="0" onChange={handleCreditChange} />
-          0-1 credits
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="1"
-            onChange={handleCreditChange}
-            checked={credits.includes("1")}
-          />
-          1 credit
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="2"
-            onChange={handleCreditChange}
-            checked={credits.includes("2")}
-          />
-          2 credits
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="3"
-            onChange={handleCreditChange}
-            checked={credits.includes("3")}
-          />
-          3 credits
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="4"
-            onChange={handleCreditChange}
-            checked={credits.includes("4")}
-          />
-          4 credits
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="5"
-            onChange={handleCreditChange}
-            checked={credits.includes("5")}
-          />
-          5 credits
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="6"
-            onChange={handleCreditChange}
-            checked={credits.includes("6")}
-          />
-          6 credits
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="7"
-            onChange={handleCreditChange}
-            checked={credits.includes("7")}
-          />
-          7 credits
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="8"
-            onChange={handleCreditChange}
-            checked={credits.includes("8")}
-          />
-          8 credits
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="9"
-            onChange={handleCreditChange}
-            checked={credits.includes("9")}
-          />
-          9 credits
-        </label>
-      </div>
-
-      {/* Days Type */}
-      <div>
-        <fieldset className="mt-2">
-          <legend className="font-semibold mb-1">Day Match Type:</legend>
-
-          <label className="mr-4">
-            <input
-              type="radio"
-              value="includes"
-              checked={daysType === "includes"}
-              onChange={(e) => setDaysType(e.target.value)}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-6 min-h-screen">
+        <div className="col-span-1 space-y-4">
+          {/* Search Bar */}
+          <input
+            type="text"
+            placeholder="Search for a course..."
+            value={searchTerm}
+            className="w-[16rem] px-4 py-2 border rounded-md shadow-sm text-base text-white bg-black/45 hover:bg-black/50"
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
+          {/* Accordion */}
+          <Accordion type="single" collapsible>
+            <CheckboxGroupAccordion
+              id="acad-careers"
+              title="Level of Study"
+              options={filterOptions.acadCareerOptions}
+              selected={acadCareers}
+              onChange={handleAcadCareerChange}
             />
-            <span className="ml-1">Includes Selected Days</span>
-          </label>
 
-          <label>
-            <input
-              type="radio"
-              value="only"
-              checked={daysType === "only"}
-              onChange={(e) => setDaysType(e.target.value)}
+            <CheckboxGroupAccordion
+              id="class-level"
+              title="Class Level"
+              options={filterOptions.classLevelOptions}
+              selected={classLevels}
+              onChange={handleClassLevelChange}
             />
-            <span className="ml-1">Only Selected Days</span>
-          </label>
-        </fieldset>
+
+            <AccordionItem value="distr-req" className="text-white">
+              <AccordionTrigger>Distribution Requirement</AccordionTrigger>
+              <AccordionContent className="flex flex-col gap-2">
+                <div>
+                  <label>
+                    <input
+                      type="checkbox"
+                      value="any"
+                      checked={distrReqType === "any"}
+                      onChange={handleDistrReqTypeChange}
+                    />
+                    Any
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      value="all"
+                      checked={distrReqType === "all"}
+                      onChange={handleDistrReqTypeChange}
+                    />
+                    All
+                  </label>
+                </div>
+
+                <div className="grid grid-cols-3 gap-1">
+                  {filterOptions.distrReqOptions.map((option) => (
+                    <label>
+                      <input
+                        type="checkbox"
+                        value={option.value}
+                        onChange={handleDistrReqChange}
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            <CheckboxGroupAccordion
+              id="instr-mode"
+              title="Instruction Mode"
+              options={filterOptions.instrModeOptions}
+              selected={instructModes}
+              onChange={handleInstructModeChange}
+            />
+
+            <CheckboxGroupAccordion
+              id="credits"
+              title="Credits"
+              options={filterOptions.creditOptions}
+              selected={credits}
+              onChange={handleCreditChange}
+            />
+
+            <AccordionItem value="class-days" className="text-white">
+              <AccordionTrigger>Class Days</AccordionTrigger>
+              <AccordionContent className="flex flex-col gap-2">
+                <div>
+                  <fieldset className="mt-2">
+                    <legend className="font-semibold mb-1">
+                      Day Match Type:
+                    </legend>
+
+                    <label className="mr-4">
+                      <input
+                        type="radio"
+                        value="includes"
+                        checked={daysType === "includes"}
+                        onChange={(e) => setDaysType(e.target.value)}
+                      />
+                      <span className="ml-1">Includes Selected Days</span>
+                    </label>
+
+                    <label>
+                      <input
+                        type="radio"
+                        value="only"
+                        checked={daysType === "only"}
+                        onChange={(e) => setDaysType(e.target.value)}
+                      />
+                      <span className="ml-1">Only Selected Days</span>
+                    </label>
+                  </fieldset>
+                </div>
+
+                <div className="grid grid-cols-2 gap-1">
+                  {filterOptions.classDayOptions.map((option) => (
+                    <label>
+                      <input
+                        type="checkbox"
+                        value={option.value}
+                        onChange={handleDayChange}
+                        checked={days.includes(`${option.value}`)}
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
+          <button onClick={handleSearch}>Apply Filters</button>
+        </div>
+
+        <div className="col-span-1 md:col-span-3">
+          {/* Courses */}
+          {loading ? (
+            <p className="text-gray-500">Loading Courses...</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {courses.map((course) => (
+                // Temporary Course Card Styling
+                <div
+                  key={course.crseId}
+                  className="flex flex-col flex-shrink-0 h-28 bg-white/15 backdrop-blur-md border border-white/30 rounded-lg shadow-md p-4 mx-1 hover:scale-[1.03] hover:shadow-lg transition-transform duration-200 justify-between"
+                >
+                  <p className="text-xl font-semibold text-white truncate">
+                    {course.subject} {course.catalogNbr}
+                  </p>
+                  <p className="text-left text-sm text-slate-200 line-clamp-3">
+                    {course.titleLong}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-
-      {/* Days of the Week */}
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            value="M"
-            onChange={handleDayChange}
-            checked={days.includes("M")}
-          />
-          Monday
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="T"
-            onChange={handleDayChange}
-            checked={days.includes("T")}
-          />
-          Tuesday
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="W"
-            onChange={handleDayChange}
-            checked={days.includes("W")}
-          />
-          Wednesday
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="R"
-            onChange={handleDayChange}
-            checked={days.includes("R")}
-          />
-          Thursday
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="F"
-            onChange={handleDayChange}
-            checked={days.includes("F")}
-          />
-          Friday
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="S"
-            onChange={handleDayChange}
-            checked={days.includes("S")}
-          />
-          Saturday
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="Su"
-            onChange={handleDayChange}
-            checked={days.includes("Su")}
-          />
-          Sunday
-        </label>
-      </div>
-
-      <button onClick={handleSearch}>Apply Filters</button>
-
-      {/* Courses */}
-      {loading ? (
-        <p className="text-gray-500">Loading Courses...</p>
-      ) : (
-        courses.map((course) => (
-          // Temporary Course Card Styling
-          <div
-            key={course.crseId}
-            className="flex flex-col m-4 border-1 border-solid border-indigo-500"
-          >
-            <p>
-              {course.subject} {course.catalogNbr}
-            </p>
-            <p>{course.titleLong}</p>
-          </div>
-        ))
-      )}
-    </div>
+    </AuroraBackgroundSubjects>
   );
 };
 
