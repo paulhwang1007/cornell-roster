@@ -493,6 +493,7 @@ const CourseListPage = () => {
                   desc={course.description}
                   enrollPrio={course.catalogEnrollmentPriority}
                   attrValueGroups={course.crseAttrValueGroups}
+                  outcomes={course.catalogOutcomes}
                 />
               ))}
             </div>

@@ -16,11 +16,13 @@ const CourseModal = ({
   desc,
   enrollPrio,
   attrValueGroups,
+  outcomes,
 }) => {
   const [distrReqs, setDistrReqs] = useState("");
 
   // Load Distribution Requirements
   useEffect(() => {
+    // Distribution Requirements
     const distrGroup = attrValueGroups?.find(
       (group) => group.attrDescr === "Distribution Requirements"
     );
@@ -44,22 +46,54 @@ const CourseModal = ({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
+          {/* Course Modal Title */}
           <DialogTitle>
             {subject} {number}: {title}
           </DialogTitle>
-          {desc ? (
-            <DialogDescription>{desc}</DialogDescription>
-          ) : (
-            <DialogDescription>No Course Description</DialogDescription>
-          )}
-          {enrollPrio ? (
-            <DialogDescription>{enrollPrio}</DialogDescription>
-          ) : null}
-          {distrReqs ? (
-            <DialogDescription>
-              Distribution Requirements: {distrReqs}
-            </DialogDescription>
-          ) : null}
+
+          <div className="flex flex-col gap-2">
+            {/* Description */}
+            {desc ? (
+              <DialogDescription>
+                <span className="mt-4 font-semibold text-zinc-800">
+                  Course Description:
+                </span>
+                <p className="pl-5">{desc}</p>
+              </DialogDescription>
+            ) : (
+              <DialogDescription>No Course Description</DialogDescription>
+            )}
+            {/* Enrollment */}
+            {enrollPrio ? (
+              <DialogDescription>
+                <span className="mt-4 font-semibold text-zinc-800">
+                  {enrollPrio}
+                </span>
+              </DialogDescription>
+            ) : null}
+            {/* Distribution Requirements */}
+            {distrReqs ? (
+              <DialogDescription>
+                <span className="mt-4 font-semibold text-zinc-800">
+                  Distribution Requirements:
+                </span>{" "}
+                {distrReqs}
+              </DialogDescription>
+            ) : null}
+            {/* Learning Outcomes */}
+            {outcomes ? (
+              <DialogDescription>
+                <span className="mt-4 font-semibold text-zinc-800">
+                  Learning Outcomes:
+                </span>
+                <ul className="list-disc text-sm text-zinc-600 pl-5">
+                  {outcomes.map((outcome) => (
+                    <li>{outcome}</li>
+                  ))}
+                </ul>
+              </DialogDescription>
+            ) : null}
+          </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>
