@@ -9,6 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import CheckboxGroupAccordion from "../components/CheckboxGroupAccordion";
+import FilterCheckbox from "../components/FilterCheckbox";
 
 const CourseListPage = () => {
   // || Inputs
@@ -259,9 +260,29 @@ const CourseListPage = () => {
   // Fetch Classes when Search Term debounces
   useEffect(() => {
     handleSearch();
-  }, [debouncedSearchTerm]);
+  }, [
+    debouncedSearchTerm,
+    acadCareers,
+    classLevels,
+    distrReqs,
+    distrReqType,
+    instructModes,
+    credits,
+    days,
+    daysType,
+  ]);
 
   // || Handlers for Filters
+  const clearFilters = async () => {
+    setAcadCareers([]);
+    setClassLevels([]);
+    setDistrReqs([]);
+    setDistrReqType("any");
+    setInstructModes([]);
+    setCredits([]);
+    setDays([]);
+    setDaysType("includes");
+  };
   const createCheckboxHandler = (setter) => (e) => {
     const value = e.target.value;
     setter((prev) =>
@@ -312,13 +333,13 @@ const CourseListPage = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-6 min-h-screen">
-        <div className="col-span-1 space-y-4">
+        <div className="col-span-1 space-y-4 h-fit p-4 bg-black/30 hover:bg-black/50 rounded-md">
           {/* Search Bar */}
           <input
             type="text"
             placeholder="Search for a course..."
             value={searchTerm}
-            className="w-[16rem] px-4 py-2 border rounded-md shadow-sm text-base text-white bg-black/45 hover:bg-black/50"
+            className="w-full px-4 py-2 border rounded-md shadow-sm text-base text-white bg-black/45 hover:bg-black/50"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
@@ -342,38 +363,37 @@ const CourseListPage = () => {
 
             <AccordionItem value="distr-req" className="text-white">
               <AccordionTrigger>Distribution Requirement</AccordionTrigger>
-              <AccordionContent className="flex flex-col gap-2">
-                <div>
-                  <label>
-                    <input
-                      type="checkbox"
-                      value="any"
-                      checked={distrReqType === "any"}
-                      onChange={handleDistrReqTypeChange}
-                    />
-                    Any
-                  </label>
-                  <label>
-                    <input
-                      type="checkbox"
-                      value="all"
-                      checked={distrReqType === "all"}
-                      onChange={handleDistrReqTypeChange}
-                    />
-                    All
-                  </label>
-                </div>
+              <AccordionContent className="flex flex-col gap-2 px-2">
+                <fieldset className="mt-2">
+                  <legend className="font-semibold mb-1">
+                    Distribution Requirement Type:
+                  </legend>
 
-                <div className="grid grid-cols-3 gap-1">
+                  <FilterCheckbox
+                    value={"any"}
+                    checked={distrReqType === "any"}
+                    onChange={handleDistrReqTypeChange}
+                    label={"Any Selected"}
+                  />
+
+                  <FilterCheckbox
+                    value={"all"}
+                    checked={distrReqType === "all"}
+                    onChange={handleDistrReqTypeChange}
+                    label={"All Selected"}
+                  />
+                </fieldset>
+
+                <div className="h-px w-full bg-gradient-to-r from-white/20 via-white/40 to-transparent" />
+
+                <div className="grid grid-cols-2 gap-1">
                   {filterOptions.distrReqOptions.map((option) => (
-                    <label>
-                      <input
-                        type="checkbox"
-                        value={option.value}
-                        onChange={handleDistrReqChange}
-                      />
-                      {option.label}
-                    </label>
+                    <FilterCheckbox
+                      type="checkbox"
+                      value={option.value}
+                      onChange={handleDistrReqChange}
+                      label={option.label}
+                    />
                   ))}
                 </div>
               </AccordionContent>
@@ -397,53 +417,52 @@ const CourseListPage = () => {
 
             <AccordionItem value="class-days" className="text-white">
               <AccordionTrigger>Class Days</AccordionTrigger>
-              <AccordionContent className="flex flex-col gap-2">
+              <AccordionContent className="flex flex-col gap-3 px-2">
                 <div>
                   <fieldset className="mt-2">
                     <legend className="font-semibold mb-1">
                       Day Match Type:
                     </legend>
 
-                    <label className="mr-4">
-                      <input
-                        type="radio"
-                        value="includes"
-                        checked={daysType === "includes"}
-                        onChange={(e) => setDaysType(e.target.value)}
-                      />
-                      <span className="ml-1">Includes Selected Days</span>
-                    </label>
+                    <FilterCheckbox
+                      value="includes"
+                      checked={daysType === "includes"}
+                      onChange={(e) => setDaysType(e.target.value)}
+                      label={"Includes Selected Days"}
+                    />
 
-                    <label>
-                      <input
-                        type="radio"
-                        value="only"
-                        checked={daysType === "only"}
-                        onChange={(e) => setDaysType(e.target.value)}
-                      />
-                      <span className="ml-1">Only Selected Days</span>
-                    </label>
+                    <FilterCheckbox
+                      value="only"
+                      checked={daysType === "only"}
+                      onChange={(e) => setDaysType(e.target.value)}
+                      label={"Only Selected Days"}
+                    />
                   </fieldset>
                 </div>
 
-                <div className="grid grid-cols-2 gap-1">
+                <div className="h-px w-full bg-gradient-to-r from-white/20 via-white/40 to-transparent" />
+
+                <div className="grid grid-cols-2 gap-3">
                   {filterOptions.classDayOptions.map((option) => (
-                    <label>
-                      <input
-                        type="checkbox"
-                        value={option.value}
-                        onChange={handleDayChange}
-                        checked={days.includes(`${option.value}`)}
-                      />
-                      {option.label}
-                    </label>
+                    <FilterCheckbox
+                      type="checkbox"
+                      value={option.value}
+                      onChange={handleDayChange}
+                      checked={days.includes(`${option.value}`)}
+                      label={option.label}
+                    />
                   ))}
                 </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
 
-          <button onClick={handleSearch}>Apply Filters</button>
+          <button
+            onClick={clearFilters}
+            className="mt-4 md:mt-0 bg-white text-black px-4 py-2 rounded-md shadow hover:bg-zinc-200 hover:cursor-pointer"
+          >
+            Clear Filters
+          </button>
         </div>
 
         <div className="col-span-1 md:col-span-3">
