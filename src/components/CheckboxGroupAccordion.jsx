@@ -18,6 +18,7 @@ const CheckboxGroupAccordion = ({ id, title, options, selected, onChange }) => {
             {options.map((option) => (
               <FilterCheckbox
                 type="checkbox"
+                key={option.value}
                 value={option.value}
                 onChange={onChange}
                 checked={selected.includes(option.value)}

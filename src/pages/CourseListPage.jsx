@@ -185,7 +185,13 @@ const CourseListPage = () => {
       const url = `https://classes.cornell.edu/api/2.0/search/classes.json?${params.toString()}`;
       const response = await fetch(url);
       const data = await response.json();
-      let fetchedCourses = data.data.classes || [];
+      let fetchedCourses = data.data?.classes;
+
+      // No Courses with the selected parameters
+      if (!fetchedCourses) {
+        console.warn("No courses fit the selected filters.");
+        fetchedCourses = [];
+      }
 
       // Local filter for Credits
       if (credits.length > 0) {
@@ -282,6 +288,10 @@ const CourseListPage = () => {
     setCredits([]);
     setDays([]);
     setDaysType("includes");
+
+    setTimeout(() => {
+      handleSearch();
+    }, 0);
   };
   const createCheckboxHandler = (setter) => (e) => {
     const value = e.target.value;
@@ -339,7 +349,7 @@ const CourseListPage = () => {
             type="text"
             placeholder="Search for a course..."
             value={searchTerm}
-            className="w-full px-4 py-2 border rounded-md shadow-sm text-base text-white bg-black/45 hover:bg-black/50"
+            className="w-full px-4 py-2 border rounded-md shadow-sm text-base text-white bg-black/25 hover:bg-black/50"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
