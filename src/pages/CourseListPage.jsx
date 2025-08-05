@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/accordion";
 import CheckboxGroupAccordion from "../components/CheckboxGroupAccordion";
 import FilterCheckbox from "../components/FilterCheckbox";
+import CourseSkeleton from "../components/CourseSkeleton";
 
 const CourseListPage = () => {
   // || Inputs
@@ -467,6 +468,7 @@ const CourseListPage = () => {
             </AccordionItem>
           </Accordion>
 
+          {/* Clear Filters Button */}
           <button
             onClick={clearFilters}
             className="mt-4 md:mt-0 bg-white text-black px-4 py-2 rounded-md shadow hover:bg-zinc-200 hover:cursor-pointer"
@@ -478,7 +480,7 @@ const CourseListPage = () => {
         <div className="col-span-1 md:col-span-3">
           {/* Courses */}
           {loading ? (
-            <p className="text-gray-500">Loading Courses...</p>
+            <CourseSkeleton />
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {courses.map((course) => (

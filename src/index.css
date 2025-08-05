@@ -125,6 +125,10 @@
   .card-header {
     @apply text-xl font-normal font-sans text-white;
   }
+
+  .course-skeleton {
+    @apply flex flex-col flex-shrink-0 h-28 bg-white/15 backdrop-blur-md border border-white/30 rounded-lg shadow-md p-4 mx-1 hover:scale-[1.03] hover:shadow-lg transition-transform duration-200 justify-between animate-pulse;
+  }
 }
 
 @layer base {
