@@ -5,7 +5,7 @@ import { AuroraBackground } from "../components/ui/aurora-bg";
 
 export function AuroraBackgroundSubjects({ children }) {
   return (
-    <AuroraBackground className="w-full">
+    <AuroraBackground className="w-full min-h-screen">
       <motion.div
         initial={{ opacity: 0.0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}

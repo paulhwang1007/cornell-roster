@@ -45,7 +45,7 @@ function DialogContent({
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "bg-white/90 backdrop-blur-lg text-black border border-zinc-300 shadow-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg p-10 duration-200 w-[60vw] h-[75vh] overflow-y-auto",
+          "bg-white/95 backdrop-blur-lg text-black border border-zinc-300 shadow-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 flex flex-col translate-x-[-50%] translate-y-[-50%] rounded-lg p-10 duration-200 w-[60vw] h-[80vh] overflow-y-auto",
           className
         )}
         {...props}
@@ -69,7 +69,7 @@ function DialogHeader({ className, ...props }) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex flex-col gap-10 text-left", className)}
+      className={cn("flex flex-col gap-8 text-left h-fit", className)}
       {...props}
     />
   );
@@ -103,7 +103,7 @@ function DialogDescription({ className, ...props }) {
     <DialogPrimitive.Description
       data-slot="dialog-description"
       className={cn(
-        "text-sm text-zinc-600 leading-relaxed space-y-2",
+        "text-base text-zinc-600 leading-relaxed space-y-2",
         className
       )}
       {...props}

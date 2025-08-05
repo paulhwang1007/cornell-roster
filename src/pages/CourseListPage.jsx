@@ -494,6 +494,12 @@ const CourseListPage = () => {
                   enrollPrio={course.catalogEnrollmentPriority}
                   attrValueGroups={course.crseAttrValueGroups}
                   outcomes={course.catalogOutcomes}
+                  enrollGroups={course.enrollGroups}
+                  prereqs={course.catalogPrereq}
+                  coreqs={course.catalogCoreq}
+                  overlaps={course.catalogForbiddenOverlaps}
+                  fees={course.catalogFees}
+                  lastOffered={course.lastTermsOffered}
                 />
               ))}
             </div>
