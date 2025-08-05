@@ -63,7 +63,8 @@ const SubjectListPage = () => {
         </Link>
       </div>
 
-      <div className="flex flex-col gap-8 px-24">
+      {/* Subjects sorted by Letter */}
+      <div className="flex flex-col gap-4 px-24">
         {Object.keys(subjectsByLetter)
           .sort()
           .map((letter) => (

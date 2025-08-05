@@ -11,6 +11,7 @@ import {
 import CheckboxGroupAccordion from "../components/CheckboxGroupAccordion";
 import FilterCheckbox from "../components/FilterCheckbox";
 import CourseSkeleton from "../components/CourseSkeleton";
+import CourseModal from "../components/CourseModal";
 
 const CourseListPage = () => {
   // || Inputs
@@ -477,25 +478,22 @@ const CourseListPage = () => {
           </button>
         </div>
 
+        {/* Courses */}
         <div className="col-span-1 md:col-span-3">
-          {/* Courses */}
           {loading ? (
             <CourseSkeleton />
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {courses.map((course) => (
-                // Temporary Course Card Styling
-                <div
-                  key={course.crseId}
-                  className="flex flex-col flex-shrink-0 h-28 bg-white/15 backdrop-blur-md border border-white/30 rounded-lg shadow-md p-4 mx-1 hover:scale-[1.03] hover:shadow-lg transition-transform duration-200 justify-between"
-                >
-                  <p className="text-xl font-semibold text-white truncate">
-                    {course.subject} {course.catalogNbr}
-                  </p>
-                  <p className="text-left text-sm text-slate-200 line-clamp-3">
-                    {course.titleLong}
-                  </p>
-                </div>
+                <CourseModal
+                  id={course.crseId}
+                  subject={course.subject}
+                  number={course.catalogNbr}
+                  title={course.titleLong}
+                  desc={course.description}
+                  enrollPrio={course.catalogEnrollmentPriority}
+                  attrValueGroups={course.crseAttrValueGroups}
+                />
               ))}
             </div>
           )}
