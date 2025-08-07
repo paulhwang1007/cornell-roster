@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import RosterSelect from "../components/rosterSelect";
 import { AuroraBackgroundDemo } from "../components/background";
+import RosterSelect from "../components/rosterSelect";
 
 const HomePage = () => {
   // || States
@@ -47,7 +47,7 @@ const HomePage = () => {
             rosters={rosters}
             value={selectedSemester}
             onChange={handleSemesterChange}
-          ></RosterSelect>
+          />
 
           <button
             onClick={handleSubmit}
