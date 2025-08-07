@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuroraBackgroundDemo } from "../components/background";
-import RosterSelect from "../components/rosterSelect";
+import RosterSelect from "../components/RosterSelect";
 
 const HomePage = () => {
   // || States
