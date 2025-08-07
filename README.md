@@ -1,13 +1,30 @@
-# React + Vite
+# 📚 Cornell Roster Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal, responsive frontend web app that allows users to explore Cornell University courses by semester, using the official [Cornell Roster API](https://classes.cornell.edu/content/FA25/api-details).
 
-Currently, two official plugins are available:
+Built with **React.js**, **Tailwind CSS**, and **HTML** — and hosted on **Vercel**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🔍 Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# cornell-roster
+- ✅ Search for courses by **subject** and **semester**
+- ✅ Filter courses by:
+  - Level of Study (UG, GR, etc.)
+  - Class level (1000–9000 level)
+  - Distribution requirements
+  - Instruction mode
+  - Credit range
+  - Meeting days
+- ✅ View course details including:
+  - Full title & description
+  - Prerequisites, corequisites, and overlaps
+  - Distribution categories
+  - Learning outcomes
+  - Enrollment group info (units, sections, instructors, meeting times)
+- ✅ Animated UI with **Framer Motion** and a soft **Aurora-style background**
+- ✅ Fully responsive layout for desktop and mobile
+
+---
+
+Implemented by Paul Hwang
