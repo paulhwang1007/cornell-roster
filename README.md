@@ -27,4 +27,20 @@ Built with **React.js**, **Tailwind CSS**, and **HTML** — and hosted on **Verc
 
 ---
 
+## 🛠 Local Development
+
+```bash
+# Clone the repo
+git clone https://github.com/your-username/cornell-roster.git
+cd cornell-roster
+
+# Install dependencies
+npm install
+
+# Start the local dev server
+npm run dev
+```
+
+---
+
 Implemented by Paul Hwang
