@@ -60,101 +60,103 @@ const CourseModal = ({
             {subject} {number}: {title}
           </DialogTitle>
 
+          <DialogDescription></DialogDescription>
+
           <div className="flex flex-col gap-2">
             {/* Description */}
             {desc ? (
-              <DialogDescription>
+              <div className="dialog-description">
                 <span className="mt-4 font-semibold text-zinc-800">
                   Course Description:
                 </span>
                 <p className="pl-5">{desc}</p>
-              </DialogDescription>
+              </div>
             ) : (
-              <DialogDescription>No Course Description</DialogDescription>
+              <div className="dialog-description">No Course Description</div>
             )}
 
             {/* Prereqs */}
             {prereqs ? (
-              <DialogDescription>
+              <div className="dialog-description">
                 <span className="mt-4 font-semibold text-zinc-800">
                   Prerequisites:
                 </span>
                 <p className="pl-5">{prereqs}</p>
-              </DialogDescription>
+              </div>
             ) : null}
 
             {/* Coreqs */}
             {coreqs ? (
-              <DialogDescription>
+              <div className="dialog-description">
                 <span className="mt-4 font-semibold text-zinc-800">
                   Corequisites:
                 </span>
                 <p className="pl-5">{coreqs}</p>
-              </DialogDescription>
+              </div>
             ) : null}
 
             {/* Forbidden Overlaps */}
             {overlaps ? (
-              <DialogDescription>
+              <div className="dialog-description">
                 <span className="mt-4 font-semibold text-zinc-800">
                   Forbidden Overlaps:
                 </span>
                 <p className="pl-5">{overlaps}</p>
-              </DialogDescription>
+              </div>
             ) : null}
 
             {/* Fees */}
             {fees ? (
-              <DialogDescription>
+              <div className="dialog-description">
                 <span className="mt-4 font-semibold text-zinc-800">
                   Course Fees:
                 </span>
                 <p className="pl-5">{fees}</p>
-              </DialogDescription>
+              </div>
             ) : null}
 
             {/* Enrollment */}
             {enrollPrio ? (
-              <DialogDescription>
+              <div className="dialog-description">
                 <span className="mt-4 font-semibold text-zinc-800">
                   Enrollment Information:
                 </span>
                 <p className="pl-5">{enrollPrio}</p>
-              </DialogDescription>
+              </div>
             ) : null}
 
             {/* Distribution Requirements */}
             {distrReqs ? (
-              <DialogDescription>
+              <div className="dialog-description">
                 <span className="mt-4 font-semibold text-zinc-800">
                   Distribution Requirements:
                 </span>{" "}
                 <p className="pl-5">{distrReqs}</p>
-              </DialogDescription>
+              </div>
             ) : null}
 
             {/* Last Terms Offered */}
             {lastOffered ? (
-              <DialogDescription>
+              <div className="dialog-description">
                 <span className="mt-4 font-semibold text-zinc-800">
                   Last 4 Terms Offered:
                 </span>
                 <p className="pl-5">{lastOffered}</p>
-              </DialogDescription>
+              </div>
             ) : null}
 
             {/* Learning Outcomes */}
             {outcomes ? (
-              <DialogDescription>
+              <div className="dialog-description">
                 <span className="mt-4 font-semibold text-zinc-800">
                   Learning Outcomes:
                 </span>
                 <ul className="list-disc text-base text-zinc-600 pl-5">
-                  {outcomes.map((outcome) => (
-                    <li>{outcome}</li>
+                  {outcomes.map((outcome, index) => (
+                    <li key={index}>{outcome}</li>
                   ))}
                 </ul>
-              </DialogDescription>
+              </div>
             ) : null}
           </div>
         </DialogHeader>
@@ -171,9 +173,9 @@ const CourseModal = ({
                   {enrollGroup.unitsMaximum}
                 </p>
               )}
-              {enrollGroup.classSections?.map((classSection) => (
+              {enrollGroup.classSections?.map((classSection, index) => (
                 <div
-                  key={classSection.classNbr}
+                  key={index}
                   //   Temp style
                   className={cn(
                     "flex flex-col justify-between border-2 border-l-6 rounded-lg shadow-md m-2 py-2 px-3 min-h-28 h-fit",
@@ -210,11 +212,8 @@ const CourseModal = ({
                   </div>
 
                   {/* Pattern, Time, Dates */}
-                  {classSection.meetings?.map((meeting) => (
-                    <div
-                      key={meeting.classMtgNbr}
-                      className="flex flex-wrap text-zinc-600"
-                    >
+                  {classSection.meetings?.map((meeting, index) => (
+                    <div key={index} className="flex flex-wrap text-zinc-600">
                       <div className="flex justify-between w-full">
                         {meeting.pattern?.length > 0 ||
                         meeting.timeStart?.length > 0 ? (
@@ -235,8 +234,8 @@ const CourseModal = ({
                       <div className="flex w-full justify-between">
                         <div className="flex gap-1">
                           {meeting.instructors?.length > 0 ? (
-                            meeting.instructors.map((instructor) => (
-                              <div key={instructor.instrAssignSeq}>
+                            meeting.instructors.map((instructor, index) => (
+                              <div key={index}>
                                 <p>
                                   {instructor.firstName} {instructor.middleName}{" "}
                                   {instructor.lastName} ({instructor.netid})

@@ -399,8 +399,9 @@ const CourseListPage = () => {
                 <div className="h-px w-full bg-gradient-to-r from-white/20 via-white/40 to-transparent" />
 
                 <div className="grid grid-cols-2 gap-1">
-                  {filterOptions.distrReqOptions.map((option) => (
+                  {filterOptions.distrReqOptions.map((option, index) => (
                     <FilterCheckbox
+                      key={index}
                       type="checkbox"
                       value={option.value}
                       onChange={handleDistrReqChange}
@@ -455,8 +456,9 @@ const CourseListPage = () => {
                 <div className="h-px w-full bg-gradient-to-r from-white/20 via-white/40 to-transparent" />
 
                 <div className="grid grid-cols-2 gap-3">
-                  {filterOptions.classDayOptions.map((option) => (
+                  {filterOptions.classDayOptions.map((option, index) => (
                     <FilterCheckbox
+                      key={index}
                       type="checkbox"
                       value={option.value}
                       onChange={handleDayChange}
@@ -482,10 +484,15 @@ const CourseListPage = () => {
         <div className="col-span-1 md:col-span-3">
           {loading ? (
             <CourseSkeleton />
+          ) : courses.length === 0 ? (
+            <p className="text-center text-gray-400 text-xl mt-10">
+              No courses found!
+            </p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {courses.map((course) => (
+              {courses.map((course, index) => (
                 <CourseModal
+                  key={index}
                   id={course.crseId}
                   subject={course.subject}
                   number={course.catalogNbr}

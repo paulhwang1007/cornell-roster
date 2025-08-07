@@ -39,7 +39,7 @@ const HomePage = () => {
           Search Cornell Classes
         </h1>
         <p className="text-gray-300 text-lg text-pretty mb-5">
-          A better way to browse Cornell classes across any semester.
+          Browse Cornell classes from any semester.
         </p>
 
         <div className="flex gap-4">
